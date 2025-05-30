@@ -1,11 +1,131 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>QUIC Vietnam</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QUIC Deployment in Vietnam</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #002f6c;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    nav {
+      background: #004b9b;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    h2 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      background: #002f6c;
+      color: white;
+      padding: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Chào mừng đến với QUIC Vietnam!</h1>
-    <p>Trang web này đang được phát triển nhằm phổ biến và nghiên cứu về giao thức QUIC tại Việt Nam.</p>
+
+  <header>
+    <h1>QUIC Deployment in Vietnam</h1>
+    <p>Insights from our 2025 nationwide QUIC scanning study</p>
+  </header>
+
+  <nav>
+    <a href="#methodology">Methodology</a>
+    <a href="#results">Results</a>
+    <a href="#map">Map</a>
+    <a href="#authors">Authors</a>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p>
+        This project presents the first large-scale analysis of QUIC protocol deployment across Vietnam.
+        Using tools like ZMap, ZDNS, and QScanner, we scanned over 16 million IPv4 addresses to assess QUIC adoption and visualize its distribution geographically.
+      </p>
+    </section>
+
+    <section id="methodology">
+      <h2>Methodology</h2>
+      <p>
+        Our scanning framework integrates:
+        <ul>
+          <li><strong>ZMap</strong> – for initial IP responsiveness over UDP:443</li>
+          <li><strong>ZDNS</strong> – for resolving hostnames from IPs</li>
+          <li><strong>QScanner</strong> – for full QUIC + TLS 1.3 handshakes</li>
+        </ul>
+        Each detected QUIC-enabled server was enriched with geolocation and AS data using IP2Location.
+      </p>
+    </section>
+
+    <section id="results">
+      <h2>Results Overview</h2>
+      <ul>
+        <li><strong>8,337 QUIC-enabled IPs</strong> detected (≈0.05% of all scanned IPs in Vietnam)</li>
+        <li><strong>Top ASes</strong>: VNPT, Viettel, FPT Telecom</li>
+        <li><strong>QUIC version</strong>: 99.3% conform to IETF QUIC (RFC 9000)</li>
+        <li><strong>Active migration</strong>: Supported by 69.4% of servers</li>
+        <li><strong>TLS cipher suite</strong>: 80.5% use AES 128 GCM SHA256</li>
+      </ul>
+    </section>
+
+    <section id="map">
+      <h2>Interactive Map of QUIC Deployment</h2>
+      <p>The map below visualizes the geographic and AS-level distribution of QUIC-enabled servers across Vietnam.</p>
+      <iframe src="visualization.html"></iframe>
+    </section>
+
+    <section id="authors">
+      <h2>Authors</h2>
+      <p>
+        <strong>Thanh Trung Nguyen</strong> – Phenikaa University, HUST<br/>
+        <strong>Thanh Le</strong> – SOKENDAI, Japan<br/>
+        <strong>Minh Hai Vu, Phi Le Nguyen</strong> – HUST - SoICT<br/>
+        <strong>Kien Nguyen</strong> – Chiba University, Japan
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 QUIC Vietnam • Funded by JSPS & VINIF • Hosted on GitHub Pages
+  </footer>
+
 </body>
 </html>
