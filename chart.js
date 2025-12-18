@@ -110,4 +110,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-git remote add origin https://github.com/quic-vn/quic-vn.github.io.git
