@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+fir<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUIC Deployment in Vietnam</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -46,6 +47,20 @@
             Using tools like ZMap <a href="#ref-7">[Durumeric et al., 2013]</a>, ZDNS, and QScanner <a href="#ref-3">[Zirngibl et al., 2024]</a>, we scanned over 16 million IPv4 addresses (sourced from <a href="https://vnnic.vn/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">VNNIC</a>) to assess QUIC adoption and visualize its distribution geographically.
         </p>
     </section>
+
+    <section id="deployment-chart" class="container">
+        <h2 class="section-title">QUIC Deployment Timeline</h2>
+        <p style="text-align: center; margin-bottom: 2rem;">The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam throughout 2025.</p>
+        
+        <div style="position: relative; height: 400px; width: 100%;">
+            <canvas id="quicChart"></canvas>
+        </div>
+
+        <div style="text-align: right; margin-top: 1rem;">
+            <button id="exportCsvBtn" class="btn">Export CSV</button>
+        </div>
+    </section>
+    <script src="chart.js"></script>
 
     <section id="map" class="container">
         <h2 class="section-title">Interactive Map of QUIC Deployment</h2>
