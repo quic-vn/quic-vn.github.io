@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology - QUIC Deployment in Vietnam</title>
+    <title>ComEX - Analysis and Visualization of QUIC Protocol Deployment in Vietnam</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
         <div class="nav-links">
             <a href="index.html" >About</a>
             <a href="index.html#map">Map</a>
-            <a href="results.html">Results</a>
-            <a href="methodology.html" class="active">Methodology</a>
+            <!-- <a href="results.html">Results</a> -->
+            <a href="methodology.html" class="active">ComEX'25</a>
             <a href="authors.html">Authors</a>
         </div>
       </div>
@@ -26,12 +26,12 @@
     </nav>
 
     <header class="hero">
-        <h1>Methodology</h1>
+        <h1>ComEX'25 - Analysis and Visualization of QUIC Protocol Deployment in Vietnam</h1>
     </header>
 
     <section id="methodology" class="container">
         <p style="font-size: 1.1rem; margin-bottom: 3rem;">
-            Full details on the methodology behind our QUIC deployment analysis are available in our <a href="https://github.com/quic-vn/quic-vn.github.io">project repository</a>. You can also browse the <a href="https://github.com/quic-vn/quic-vn.github.io">source code</a> used for visualization.
+            Full details on the methodology behind our QUIC deployment analysis are available in our <a href="https://ieeexplore.ieee.org/document/11157906">paper</a>.
         </p>
 
         <div class="method-section">
@@ -101,7 +101,67 @@
 
         </div>
     </section>
+       <header class="hero">
+        <h1>Result Overview</h1>
+        <p>Insights from our 2025 nationwide QUIC scanning study</p>
+        <!-- <a href="map.html" class="btn">View Interactive Map</a> -->
+    </header>
 
+    <section id="results" class="container">
+        <!-- <h2 class="section-title">Result Overview</h2> -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">8,337</span>
+                <span class="stat-label">QUIC-Enabled IPs</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">99.3%</span>
+                <span class="stat-label">IETF QUIC (RFC 9000)</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">Top ASes</span>
+                <span class="stat-label">VNPT, Viettel, FPT</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">80.5%</span>
+                <span class="stat-label">AES 128 GCM SHA256</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">69.4%</span>
+                <span class="stat-label">Server-supported</span>
+            </div>
+        </div>
+
+        <div class="results-detail">
+            <h2 class="section-title" style="margin-top: 4rem; font-size: 1.8rem;">Detailed Analysis & Terminology</h2>
+            
+            <div class="detail-item">
+                <h3>QUIC-Enabled IPs</h3>
+                <p><strong>8,337</strong> unique IPv4 addresses were found to support the QUIC protocol. This number represents the subset of scanned hosts that successfully completed a QUIC handshake on UDP port 443, indicating active deployment of the protocol.</p>
+            </div>
+
+            <div class="detail-item">
+                <h3>IETF QUIC (RFC 9000)</h3>
+                <p><strong>99.3%</strong> of the identified servers support <strong>RFC 9000</strong> <a href="index.html#ref-1">[RFC 9000]</a>, the standardized version of QUIC published by the IETF in 2021. This high percentage indicates that deployments in Vietnam are modern and compliant with the latest international standards, rather than using older, experimental versions like Google QUIC (gQUIC).</p>
+            </div>
+
+            <div class="detail-item">
+                <h3>Top ASes: VNPT, Viettel, FPT</h3>
+                <p>The deployment of QUIC is highly concentrated within the networks of Vietnam's largest Internet Service Providers (ISPs). <strong>VNPT, Viettel, and FPT Telecom</strong> are the top Autonomous Systems (ASes) hosting these QUIC-enabled IP addresses, reflecting the centralized nature of internet infrastructure in the region.</p>
+            </div>
+
+            <div class="detail-item">
+                <h3>AES 128 GCM SHA256</h3>
+                <p><strong>80.5%</strong> of the servers negotiated <strong>TLS_AES_128_GCM_SHA256</strong> as their cipher suite. This is a cryptographic set used in TLS 1.3 (which is mandatory for QUIC) to ensure data confidentiality and integrity. It is currently the most widely used and recommended balance between security and performance.</p>
+            </div>
+
+            <div class="detail-item">
+                <h3>69.4% Server-supported (Connection Migration)</h3>
+                <p>This figure refers to <strong>Connection Migration</strong> <a href="index.html#ref-8">[Buchet & Pelsser, 2025]</a>, a key feature of QUIC that allows a connection to survive changes in the client's IP address (e.g., switching from Wi-Fi to 4G). <strong>69.4%</strong> of servers support this feature, meaning they do not explicitly disable it, thereby enabling smoother transitions for mobile users.</p>
+            </div>
+        </div>
+    </section>
+    
     <footer>
         <p>&copy; 2025 QUIC Vietnam • Funded by JSPS & VINIF • Hosted on GitHub Pages</p>
     </footer>
