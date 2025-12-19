@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dummy data representing the growth of QUIC adoption
     // Replace this with actual data from your research results
     const data = {
-        labels: ['Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025', 'Jul 2025', 'Aug 2025', 'Sep 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025'],
+        labels: ['Jan 2025', 'Oct 2025'],
         datasets: [{
             label: 'QUIC-enabled IPv4 Addresses',
-            data: [8337, 8410, 8560, 8820, 9150, 9500, 9980, 10450, 11100, 11800, 12500, 13200],
+            data: [8337, 17278],
             borderColor: '#4BC0C0', // Teal color matching the theme likely
             backgroundColor: 'rgba(255, 255, 255, 0)',
             borderWidth: 2,
