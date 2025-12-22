@@ -1,17 +1,45 @@
 <nav class="navbar">
-  <div style="display: flex; align-items: center;">
-    <a href="index.html" class="navbar-brand">QUIC Vietnam</a>
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#map">Map</a>
-        <!-- <a href="results.html">Results</a> -->
-        <a href="methodology.html">ComEX'25</a>
-        <a href="authors.html">About us</a>
-    </div>
-  </div>
+    <div class="navbar-container">
+        <!-- Hamburger Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
 
-    <div class="nav-links">
-        <a href="">Log in</a>
-        <a href="">Register</a>
+        <a href="index.html" class="navbar-brand">QUIC Vietnam</a>
+
+        <!-- Desktop Links -->
+        <div class="nav-links desktop-only">
+            <a href="index.html">Home</a>
+            <a href="index.html#map">Map</a>
+            <a href="methodology.html">ComEX'25</a>
+            <a href="authors.html">About us</a>
+        </div>
+
+        <div class="nav-links desktop-only">
+            <a href="">Log in</a>
+            <a href="">Register</a>
+        </div>
     </div>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Menu</span>
+            <button class="close-sidebar-btn" id="closeSidebarBtn">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <a href="index.html">Home</a>
+            <a href="index.html#map">Map</a>
+            <a href="methodology.html">ComEX'25</a>
+            <a href="authors.html">About us</a>
+            <div class="sidebar-divider"></div>
+            <a href="">Log in</a>
+            <a href="">Register</a>
+        </div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 </nav>
