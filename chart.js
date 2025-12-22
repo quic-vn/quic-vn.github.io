@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dummy data representing the growth of QUIC adoption
     // Replace this with actual data from your research results
     const data = {
-        labels: ['Jan 2025', 'Mar 2025', 'May 2025', 'Jul 2025', 'Sep 2025', 'Oct 2025'],
+        labels: ['Jan 2025', 'Oct 2025'],
         datasets: [
             {
                 type: 'bar',
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 type: 'line',
                 label: 'Percentage of Total IPv4 (%)',
-                data: [0.05, 0.06, 0.08, 0.09, 0.10, 0.11],
+                data: [0.05, 0.11],
                 borderColor: '#FF6384',
                 backgroundColor: '#FF6384',
                 borderWidth: 2,
