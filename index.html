@@ -49,9 +49,6 @@
             <canvas id="quicChart"></canvas>
         </div>
 
-        <div style="text-align: right; margin-top: 1rem;">
-            <button id="exportCsvBtn" class="btn">Export CSV</button>
-        </div>
     </section>
     <script src="chart.js"></script>
 
@@ -59,6 +56,33 @@
         <h2 class="section-title">Interactive Map of QUIC Deployment</h2>
         <p style="text-align: center; margin-bottom: 2rem;">The map below visualizes the geographic and AS-level distribution of QUIC-enabled servers across Vietnam.</p>
         <iframe src="visualization.html" title="QUIC Map"></iframe>
+    </section>
+
+    <section class="container" style="margin: 0; padding: 0;">
+        <div id="export-section" style="padding: 1.5rem; background: #f8f9fa00; border-radius: 8px; border: 1px solid #e9ecef00;">
+            <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem; color: #333;">Export Data</h3>
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <!-- Single Date Export -->
+                <div class="export-option">
+                    <h4>Specific Date</h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <select id="singleDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <button id="exportSingleBtn" class="btn" style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
+                    </div>
+                </div>
+                
+                <!-- Range Export -->
+                <div class="export-option">
+                    <h4>Date Range</h4>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select id="startDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <span style="color: #666;">to</span>
+                        <select id="endDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <button id="exportRangeBtn" class="btn" style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="intro" class="container">

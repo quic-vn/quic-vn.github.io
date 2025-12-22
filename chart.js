@@ -107,33 +107,83 @@ document.addEventListener('DOMContentLoaded', function() {
 
     new Chart(ctx, config);
 
-    // Export chart data to CSV and download
-    const exportBtn = document.getElementById('exportCsvBtn');
-    if (exportBtn) {
-        exportBtn.addEventListener('click', function () {
-            const labels = config.data.labels || [];
-            const datasets = config.data.datasets || [];
+    // --- Export Functionality ---
 
-            const header = ['Date', ...datasets.map(ds => ds.label || 'Series')];
-            const lines = [header.join(',')];
+    // Populate Export Options
+    const singleDateSelect = document.getElementById('singleDateSelect');
+    const startDateSelect = document.getElementById('startDateSelect');
+    const endDateSelect = document.getElementById('endDateSelect');
+    
+    if (singleDateSelect && startDateSelect && endDateSelect) {
+        data.labels.forEach((label, index) => {
+            const option = new Option(label, index);
+            singleDateSelect.add(option.cloneNode(true));
+            startDateSelect.add(option.cloneNode(true));
+            endDateSelect.add(option.cloneNode(true));
+        });
+        
+        // Set default for end date to last option
+        endDateSelect.value = data.labels.length - 1;
+    }
 
-            for (let i = 0; i < labels.length; i++) {
-                const row = [labels[i], ...datasets.map(ds => {
-                    const v = Array.isArray(ds.data) ? ds.data[i] : '';
-                    return typeof v === 'number' ? v : (v ?? '');
-                })];
-                lines.push(row.join(','));
+    function downloadCSV(filename, rows) {
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function getCSVData(indices) {
+        const datasets = config.data.datasets || [];
+        const header = ['Date', ...datasets.map(ds => ds.label || 'Series')];
+        const rows = [header.join(',')];
+
+        indices.forEach(i => {
+            const label = config.data.labels[i];
+            const row = [label, ...datasets.map(ds => {
+                const v = Array.isArray(ds.data) ? ds.data[i] : '';
+                return typeof v === 'number' ? v : (v ?? '');
+            })];
+            rows.push(row.join(','));
+        });
+        return rows;
+    }
+
+    // Export Single Date
+    const exportSingleBtn = document.getElementById('exportSingleBtn');
+    if (exportSingleBtn) {
+        exportSingleBtn.addEventListener('click', function() {
+            const index = parseInt(singleDateSelect.value);
+            const rows = getCSVData([index]);
+            const label = config.data.labels[index].replace(/\s+/g, '_');
+            downloadCSV(`quic_data_${label}.csv`, rows);
+        });
+    }
+
+    // Export Range
+    const exportRangeBtn = document.getElementById('exportRangeBtn');
+    if (exportRangeBtn) {
+        exportRangeBtn.addEventListener('click', function() {
+            const start = parseInt(startDateSelect.value);
+            const end = parseInt(endDateSelect.value);
+            
+            if (start > end) {
+                alert('Start date must be before or equal to end date.');
+                return;
             }
 
-            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'quic_deployment_2025.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            const indices = [];
+            for (let i = start; i <= end; i++) {
+                indices.push(i);
+            }
+            
+            const rows = getCSVData(indices);
+            downloadCSV('quic_data_range.csv', rows);
         });
     }
 });

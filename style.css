@@ -193,6 +193,22 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 8px; box-shado
 .author-item { display: inline-block; margin: 0.5rem 1rem; font-weight: bold; }
 .author-affil { display: block; font-size: 0.85rem; color: #777; font-weight: normal; }
 
+/* Export Options */
+.export-option {
+    flex: 1;
+    min-width: 280px;
+    border: 1px solid rgba(0, 0, 0, 0.142);
+    padding: 1rem;
+}
+
+
+.export-option h4 {
+    margin-top: 0;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
 /* Footer */
 footer {
     /* background: var(--primary-color); */
