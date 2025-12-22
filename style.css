@@ -83,7 +83,7 @@ body {
 .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 0rem 2rem 3rem;
     flex: 1;
     width: 100%;
     box-sizing: border-box;
@@ -96,7 +96,7 @@ body {
 }
 .section-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 0.5rem;
     font-size: 2rem;
     color: var(--primary-color);
 }
