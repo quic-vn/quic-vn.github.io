@@ -28,7 +28,7 @@
 
     <section id="deployment-chart" class="container">
         <h2 class="section-title">QUIC Deployment Timeline</h2>
-        <p style="text-align: center; margin-bottom: 2rem;">The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam throughout 2025.</p>
+        <p style="text-align: center; margin-bottom: 2rem;">The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam.</p>
         
         <div style="position: relative; height: 400px; width: 100%;">
             <canvas id="quicChart"></canvas>
@@ -80,9 +80,9 @@
             <div class="info-column">
                 <h3>Updates</h3>
                 <ul class="info-list">
-                    <li><span class="badge">New</span> <strong>Dec 15, 2025:</strong> Released the interactive map of QUIC deployment.</li>
-                    <li><strong>Dec 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
-                    <li><strong>Nov 20, 2025:</strong> Integrated VNNIC IP data sources.</li>
+                    <li><span class="badge">New</span> <strong>Nov 01, 2025:</strong> Completed the data update scan.</li>
+                    <li><strong>Feb 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
+                    <li><strong>Nov 20, 2024:</strong> Integrated VNNIC IP data sources.</li>
                 </ul>
             </div>
             <div class="info-column">
@@ -92,9 +92,6 @@
                     <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes <a href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide scanning to detect potential QUIC hosts.</li>
                     <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from <a href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a>  to identify QUIC deployments and server libraries.</li>
                     <li id="ref-5"><strong>Economic Context:</strong> The <a href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context on Vietnam's rapidly growing digital economy.</li>
-                    <li id="ref-8"><strong>Connection Migration:</strong> Analysis of this feature is informed by recent studies on <a href="https://doi.org/10.1145/3727063.3727066">QUIC Connection Migration in the Wild</a>.</li>
-                    <li id="ref-9"><strong>Ranking Methodology:</strong> We reference <a href="https://doi.org/10.14722/ndss.2019.23386">Tranco</a> for reliable domain ranking approaches in network measurement.</li>
-                    <li id="ref-2"><strong>Early Deployment Analysis:</strong> Comparative data is drawn from <a href="https://doi.org/10.1145/3487552.3487826">"It’s over 9000"</a> to assess the evolution of QUIC standardization.</li>
                 </ul>
             </div>
         </div>
@@ -102,14 +99,14 @@
         <div style="margin-top: 4rem; border-top: 1px solid #eee; padding-top: 2rem;">
             <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight: normal;">About this project</h3>
             <p style="margin-bottom: 1.5rem;">
-                Researchers and network administrators often need accurate data on protocol adoption to evaluate the modernization of national internet infrastructure. However, comprehensive data on QUIC deployment in Vietnam has been scarce, limiting the ability to assess the readiness of local networks for next-generation transport protocols.
+            Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers several significant advantages over traditional TCP, including reduced latency, enhanced multiplexing capabilities, and strong security through built-in encryption and optimized handshake processes. Because of these benefits, even before its standardization in 2021, QUIC was widely deployed by major Internet companies such as Google and Facebook. Additionally, previous research has observed an increase in global adoption of QUIC. Motivated by this trend, we investigate QUIC deployment in Vietnam, particularly in the context of the country's rapid development, especially in the ICT sector. Specifically, we scan and analyze QUIC adoption using a Vietnamese IPv4 dataset. The scanning results indicate that QUIC adoption in Vietnam is in the early stages, with a low deployment rate of approximately 0.05% of all Vietnamese IPv4 addresses. Furthermore, we analyze active migration support, TLS encryption preferences, and visualize a map of QUIC adoption to track its ongoing deployment patterns. In addition, we conduct active measurements showing that QUIC achieves lower time to first byte (TTFB) and higher throughput than TCP in Wi-Fi networks, while offering competitive performance in mobile networks.
             </p>
-            <p style="margin-bottom: 1.5rem;">
+            <!-- <p style="margin-bottom: 1.5rem;">
                 <a href="results.html" style="color: var(--accent-color); text-decoration: none;">We uncovered</a> how QUIC is being adopted across different ISPs and geographic regions in Vietnam. Our study provides a detailed snapshot of the current landscape, highlighting the dominance of IETF QUIC (RFC 9000) and the security configurations preferred by local servers. This data is crucial for understanding the performance and security implications of the shifting internet transport layer.
             </p>
             <p style="margin-bottom: 1.5rem;">
                 Overall, our project aims to provide transparency and actionable insights for the research community and network operators. To ensure reproducibility and foster further research, we openly share our methodology and findings. We provide an interactive visualization tool that allows users to explore the data granularly, improving the validity of our conclusions through better accessibility and awareness.
-            </p>
+            </p> -->
         </div>
 
         <div style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 2rem;">

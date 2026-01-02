@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 type: 'bar',
                 label: 'QUIC-enabled IPv4 Addresses',
-                data: [8337, 10500, 12800, 14200, 16100, 17278],
+                data: [8337, 17278],
                 backgroundColor: 'rgba(54, 162, 235, 0.8)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 title: {
                     display: true,
-                    text: 'Growth of QUIC Adoption in Vietnam (2025)',
+                    text: 'Growth of QUIC Adoption in Vietnam',
                     font: {
                         size: 16,
                         family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
