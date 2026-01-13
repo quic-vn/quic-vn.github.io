@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const ctx = document.getElementById('quicChart').getContext('2d');
-    
+
     // Dummy data representing the growth of QUIC adoption
     // Replace this with actual data from your research results
     const data = {
@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     labels: {
                         font: {
                             family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-                            size: 12
+                            size: 12,
+                            weight: 'bold'
                         }
                     }
                 },
@@ -52,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: 'Growth of QUIC Adoption in Vietnam',
                     font: {
                         size: 16,
-                        family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+                        family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                        weight: 'bold'
                     },
                     padding: {
                         top: 10,
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const singleDateSelect = document.getElementById('singleDateSelect');
     const startDateSelect = document.getElementById('startDateSelect');
     const endDateSelect = document.getElementById('endDateSelect');
-    
+
     if (singleDateSelect && startDateSelect && endDateSelect) {
         data.labels.forEach((label, index) => {
             const option = new Option(label, index);
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             startDateSelect.add(option.cloneNode(true));
             endDateSelect.add(option.cloneNode(true));
         });
-        
+
         // Set default for end date to last option
         endDateSelect.value = data.labels.length - 1;
     }
@@ -157,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Export Single Date
     const exportSingleBtn = document.getElementById('exportSingleBtn');
     if (exportSingleBtn) {
-        exportSingleBtn.addEventListener('click', function() {
+        exportSingleBtn.addEventListener('click', function () {
             const index = parseInt(singleDateSelect.value);
             const rows = getCSVData([index]);
             const label = config.data.labels[index].replace(/\s+/g, '_');
@@ -168,10 +170,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Export Range
     const exportRangeBtn = document.getElementById('exportRangeBtn');
     if (exportRangeBtn) {
-        exportRangeBtn.addEventListener('click', function() {
+        exportRangeBtn.addEventListener('click', function () {
             const start = parseInt(startDateSelect.value);
             const end = parseInt(endDateSelect.value);
-            
+
             if (start > end) {
                 alert('Start date must be before or equal to end date.');
                 return;
@@ -181,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = start; i <= end; i++) {
                 indices.push(i);
             }
-            
+
             const rows = getCSVData(indices);
             downloadCSV('quic_data_range.csv', rows);
         });
