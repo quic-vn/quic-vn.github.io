@@ -174,39 +174,53 @@ def merge_provinces(geojson, ip_data):
     return new_geojson, dict(merged_ips)
 
 def create_visualization(geojson, ip_data, output_path):
-    """Create Folium map with merged provinces - bright colors"""
-    # Create base map centered on Vietnam with light theme
+    """Create Folium map with merged provinces - matching original style"""
+    # Create base map centered on Vietnam
     m = folium.Map(location=[16.0, 108.0], zoom_start=6, tiles='cartodbpositron')
     
     # Calculate max IPs for color scaling
     max_ips = max(ip_data.values()) if ip_data else 1
+    min_ips = min(ip_data.values()) if ip_data else 0
     
-    # Define bright color style for provinces
+    # YlOrRd color palette (matching original visualization.html)
+    def get_color(ips):
+        if ips == 0:
+            return 'black'  # No data - black like original
+        
+        # Normalize to 0-1 range
+        ratio = min(1.0, ips / max_ips)
+        
+        # YlOrRd gradient: #ffffcc -> #fed976 -> #fd8d3c -> #e31a1c -> #bd0026
+        if ratio < 0.01:
+            return '#ffffb2'  # Very light yellow
+        elif ratio < 0.05:
+            return '#fed976'  # Light orange
+        elif ratio < 0.1:
+            return '#feb24c'  # Orange
+        elif ratio < 0.2:
+            return '#fd8d3c'  # Darker orange
+        elif ratio < 0.4:
+            return '#fc4e2a'  # Red-orange
+        elif ratio < 0.6:
+            return '#e31a1c'  # Red
+        else:
+            return '#bd0026'  # Dark red
+    
+    # Define style function for provinces
     def style_function(feature):
         province_name = feature['properties'].get('Name_EN', 'Unknown')
         ips = ip_data.get(province_name, 0)
-        
-        # Calculate fill color based on IP count - bright gradient from light cyan to teal
-        if ips == 0:
-            fill_color = '#e0f7fa'  # Very light cyan for no data
-        else:
-            # Gradient from light to darker based on IP count
-            ratio = min(1.0, ips / (max_ips * 0.3))  # Normalize to 30% of max for better gradient
-            # Blend from #b2ebf2 (light cyan) to #00838f (teal)
-            r = int(178 - ratio * 178)
-            g = int(235 - ratio * 104)
-            b = int(242 - ratio * 99)
-            fill_color = f'#{r:02x}{g:02x}{b:02x}'
+        fill_color = get_color(ips)
         
         return {
             'fillColor': fill_color,
-            'color': '#00695c',  # Teal border
-            'weight': 1.5,
+            'color': 'black',
+            'weight': 1,
             'fillOpacity': 0.7,
-            'opacity': 0.8
+            'opacity': 0.2
         }
     
-    # Add GeoJson layer with bright styling
+    # Add GeoJson layer with YlOrRd styling
     folium.GeoJson(
         geojson,
         name='Provinces',
@@ -214,15 +228,7 @@ def create_visualization(geojson, ip_data, output_path):
         tooltip=folium.GeoJsonTooltip(
             fields=['Name_EN'],
             aliases=['Province:'],
-            localize=True,
-            style='''
-                background-color: white;
-                border: 2px solid #00838f;
-                border-radius: 4px;
-                box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
-                font-size: 14px;
-                padding: 8px;
-            '''
+            localize=True
         )
     ).add_to(m)
     
@@ -235,19 +241,21 @@ def create_visualization(geojson, ip_data, output_path):
             ips = ip_data.get(province_name, 0)
             
             if ips > 0:
-                # Calculate radius based on IP count
-                radius = max(5, min(25, 5 + (ips / max_ips) * 20))
+                # Calculate radius based on IP count  
+                radius = max(3, min(20, 3 + (ips / max_ips) * 17))
                 
-                # Use bright orange/red for markers
+                # Color based on IP count (matching YlOrRd)
+                marker_color = get_color(ips)
+                
                 folium.CircleMarker(
                     location=[centroid.y, centroid.x],
                     radius=radius,
-                    color='#ff5722',  # Deep orange border
+                    color=marker_color,
                     fill=True,
-                    fillColor='#ff9800',  # Bright orange fill
-                    fillOpacity=0.8,
-                    weight=2,
-                    popup=f"<b style='color:#00838f'>{province_name}</b><br><span style='color:#ff5722'>IPs: {ips:,}</span>"
+                    fillColor=marker_color,
+                    fillOpacity=0.6,
+                    weight=3,
+                    popup=f"<b>{province_name}</b><br>Total IPs: {ips:,}"
                 ).add_to(m)
         except Exception as e:
             print(f"Warning: Could not add marker for {feature['properties'].get('Name_EN', 'Unknown')}: {e}")
@@ -257,12 +265,108 @@ def create_visualization(geojson, ip_data, output_path):
     
     # Save map
     m.save(output_path)
+    
+    # Add D3 legend to the saved file (matching original style)
+    add_legend_to_html(output_path, min_ips, max_ips)
+    
     print(f"Map saved to {output_path}")
     
     return m
 
 
+def add_legend_to_html(html_path, min_ips, max_ips):
+    """Add D3 color legend to the HTML file matching original visualization.html"""
+    with open(html_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Add D3.js library if not present
+    if 'd3.min.js' not in content:
+        d3_script = '<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>\n'
+        content = content.replace('</head>', d3_script + '</head>')
+    
+    # Generate legend values
+    num_steps = 8
+    step = (max_ips - 1) / num_steps
+    tick_values = [1.0]
+    for i in range(1, num_steps + 1):
+        tick_values.append(round(1 + step * i, 1))
+    
+    # D3 legend code matching original
+    legend_code = f'''
+    <script>
+    // Color legend
+    var color_map = {{}};
+    
+    color_map.color = d3.scale.threshold()
+        .domain([1, {max_ips * 0.01}, {max_ips * 0.05}, {max_ips * 0.1}, {max_ips * 0.2}, {max_ips * 0.4}, {max_ips * 0.6}, {max_ips}])
+        .range(['black', '#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026']);
+    
+    color_map.x = d3.scale.linear()
+        .domain([1, {max_ips}])
+        .range([0, 400]);
+
+    color_map.legend = L.control({{position: 'topright'}});
+    color_map.legend.onAdd = function (map) {{
+        var div = L.DomUtil.create('div', 'legend');
+        div.innerHTML = '<div style="background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2);">' +
+            '<div style="font-weight: bold; margin-bottom: 5px;">Number of IPs by Province</div>' +
+            '<svg id="legend" width="420" height="50"></svg></div>';
+        return div;
+    }};
+    
+    // Wait for map to be ready
+    setTimeout(function() {{
+        // Find the map object
+        var mapObj = null;
+        for (var key in window) {{
+            if (key.startsWith('map_') && window[key]._leaflet_id) {{
+                mapObj = window[key];
+                break;
+            }}
+        }}
+        
+        if (mapObj) {{
+            color_map.legend.addTo(mapObj);
+            
+            var svg = d3.select("#legend");
+            var g = svg.append("g")
+                .attr("class", "key")
+                .attr("transform", "translate(10,20)");
+            
+            // Color rectangles
+            var colors = ['black', '#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026'];
+            var labels = ['No data', '1-{int(max_ips*0.01)}', '{int(max_ips*0.01)}-{int(max_ips*0.05)}', '{int(max_ips*0.05)}-{int(max_ips*0.1)}', '{int(max_ips*0.1)}-{int(max_ips*0.2)}', '{int(max_ips*0.2)}-{int(max_ips*0.4)}', '{int(max_ips*0.4)}-{int(max_ips*0.6)}', '>{int(max_ips*0.6)}'];
+            
+            g.selectAll("rect")
+                .data(colors)
+                .enter().append("rect")
+                .attr("x", function(d, i) {{ return i * 50; }})
+                .attr("width", 48)
+                .attr("height", 15)
+                .style("fill", function(d) {{ return d; }});
+            
+            g.selectAll("text")
+                .data(labels)
+                .enter().append("text")
+                .attr("x", function(d, i) {{ return i * 50 + 24; }})
+                .attr("y", 28)
+                .attr("text-anchor", "middle")
+                .style("font-size", "9px")
+                .text(function(d) {{ return d; }});
+        }}
+    }}, 1000);
+    </script>
+'''
+    
+    # Insert before </body>
+    content = content.replace('</body>', legend_code + '</body>')
+    
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
 def main():
+
     html_path = '/home/twan/Downloads/quic-vn.github.io/visualization.html'
     output_path = '/home/twan/Downloads/quic-vn.github.io/visualization_34provinces.html'
     
