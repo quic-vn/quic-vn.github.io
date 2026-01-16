@@ -275,7 +275,7 @@ def create_visualization(geojson, ip_data, output_path):
 
 
 def add_legend_to_html(html_path, min_ips, max_ips):
-    """Add D3 color legend to the HTML file matching original visualization.html"""
+    """Add D3 color legend to the HTML file matching original visualization.html - horizontal at top"""
     with open(html_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
@@ -284,77 +284,124 @@ def add_legend_to_html(html_path, min_ips, max_ips):
         d3_script = '<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>\n'
         content = content.replace('</head>', d3_script + '</head>')
     
-    # Generate legend values
-    num_steps = 8
-    step = (max_ips - 1) / num_steps
-    tick_values = [1.0]
-    for i in range(1, num_steps + 1):
-        tick_values.append(round(1 + step * i, 1))
+    # Calculate tick values for legend
+    tick_values_province = [1]
+    step = max_ips / 6
+    for i in range(1, 7):
+        tick_values_province.append(int(step * i))
     
-    # D3 legend code matching original
+    # D3 legend code - horizontal at top like original
     legend_code = f'''
+    <style>
+    .legend-top {{
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: rgba(255,255,255,0.9);
+        padding: 5px 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+        display: flex;
+        gap: 20px;
+    }}
+    .legend-section {{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }}
+    .legend-title {{
+        font-size: 11px;
+        font-weight: normal;
+        margin-bottom: 2px;
+        color: #333;
+    }}
+    .legend-bar {{
+        display: flex;
+        height: 10px;
+    }}
+    .legend-bar div {{
+        width: 50px;
+        height: 10px;
+    }}
+    .legend-labels {{
+        display: flex;
+        font-size: 9px;
+        color: #666;
+    }}
+    .legend-labels span {{
+        width: 50px;
+        text-align: center;
+    }}
+    </style>
+    
     <script>
-    // Color legend
-    var color_map = {{}};
-    
-    color_map.color = d3.scale.threshold()
-        .domain([1, {max_ips * 0.01}, {max_ips * 0.05}, {max_ips * 0.1}, {max_ips * 0.2}, {max_ips * 0.4}, {max_ips * 0.6}, {max_ips}])
-        .range(['black', '#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026']);
-    
-    color_map.x = d3.scale.linear()
-        .domain([1, {max_ips}])
-        .range([0, 400]);
-
-    color_map.legend = L.control({{position: 'topright'}});
-    color_map.legend.onAdd = function (map) {{
-        var div = L.DomUtil.create('div', 'legend');
-        div.innerHTML = '<div style="background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2);">' +
-            '<div style="font-weight: bold; margin-bottom: 5px;">Number of IPs by Province</div>' +
-            '<svg id="legend" width="420" height="50"></svg></div>';
-        return div;
-    }};
-    
-    // Wait for map to be ready
-    setTimeout(function() {{
-        // Find the map object
-        var mapObj = null;
-        for (var key in window) {{
-            if (key.startsWith('map_') && window[key]._leaflet_id) {{
-                mapObj = window[key];
-                break;
-            }}
-        }}
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {{
+        // Create legend container
+        var legendDiv = document.createElement('div');
+        legendDiv.className = 'legend-top';
+        legendDiv.innerHTML = `
+            <div class="legend-section">
+                <div class="legend-bar">
+                    <div style="background: #ffffcc;"></div>
+                    <div style="background: #ffeda0;"></div>
+                    <div style="background: #fed976;"></div>
+                    <div style="background: #feb24c;"></div>
+                    <div style="background: #fd8d3c;"></div>
+                    <div style="background: #fc4e2a;"></div>
+                    <div style="background: #e31a1c;"></div>
+                    <div style="background: #bd0026;"></div>
+                </div>
+                <div class="legend-labels">
+                    <span>1</span>
+                    <span>{int(max_ips*0.14)}</span>
+                    <span>{int(max_ips*0.28)}</span>
+                    <span>{int(max_ips*0.42)}</span>
+                    <span>{int(max_ips*0.57)}</span>
+                    <span>{int(max_ips*0.71)}</span>
+                    <span>{int(max_ips*0.85)}</span>
+                    <span>{int(max_ips)}</span>
+                </div>
+                <div class="legend-title">Number of IPs by Province</div>
+            </div>
+            <div class="legend-section">
+                <div class="legend-bar">
+                    <div style="background: #ffffcc;"></div>
+                    <div style="background: #ffeda0;"></div>
+                    <div style="background: #fed976;"></div>
+                    <div style="background: #feb24c;"></div>
+                    <div style="background: #fd8d3c;"></div>
+                    <div style="background: #fc4e2a;"></div>
+                    <div style="background: #e31a1c;"></div>
+                    <div style="background: #bd0026;"></div>
+                </div>
+                <div class="legend-labels">
+                    <span>1</span>
+                    <span>353</span>
+                    <span>704</span>
+                    <span>1,056</span>
+                    <span>1,407</span>
+                    <span>1,759</span>
+                    <span>2,110</span>
+                    <span>2,813</span>
+                </div>
+                <div class="legend-title">Number of IPs by AS</div>
+            </div>
+        `;
         
-        if (mapObj) {{
-            color_map.legend.addTo(mapObj);
-            
-            var svg = d3.select("#legend");
-            var g = svg.append("g")
-                .attr("class", "key")
-                .attr("transform", "translate(10,20)");
-            
-            // Color rectangles
-            var colors = ['black', '#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026'];
-            var labels = ['No data', '1-{int(max_ips*0.01)}', '{int(max_ips*0.01)}-{int(max_ips*0.05)}', '{int(max_ips*0.05)}-{int(max_ips*0.1)}', '{int(max_ips*0.1)}-{int(max_ips*0.2)}', '{int(max_ips*0.2)}-{int(max_ips*0.4)}', '{int(max_ips*0.4)}-{int(max_ips*0.6)}', '>{int(max_ips*0.6)}'];
-            
-            g.selectAll("rect")
-                .data(colors)
-                .enter().append("rect")
-                .attr("x", function(d, i) {{ return i * 50; }})
-                .attr("width", 48)
-                .attr("height", 15)
-                .style("fill", function(d) {{ return d; }});
-            
-            g.selectAll("text")
-                .data(labels)
-                .enter().append("text")
-                .attr("x", function(d, i) {{ return i * 50 + 24; }})
-                .attr("y", 28)
-                .attr("text-anchor", "middle")
-                .style("font-size", "9px")
-                .text(function(d) {{ return d; }});
+        // Find the map container and add legend
+        var mapContainer = document.querySelector('.folium-map');
+        if (mapContainer) {{
+            mapContainer.style.position = 'relative';
+            mapContainer.appendChild(legendDiv);
+        }} else {{
+            // Fallback: add to body
+            document.body.insertBefore(legendDiv, document.body.firstChild);
+            legendDiv.style.position = 'fixed';
         }}
-    }}, 1000);
+    }});
     </script>
 '''
     
@@ -363,6 +410,7 @@ def add_legend_to_html(html_path, min_ips, max_ips):
     
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(content)
+
 
 
 def main():
