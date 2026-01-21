@@ -114,7 +114,7 @@ def extract_ip_data_from_html(html_path):
 
 def merge_provinces(geojson, ip_data):
     """Merge province polygons and aggregate IP data"""
-    merged_features = {}
+    final_features = []
     merged_ips = defaultdict(int)
     
     # Group features by merged province name
@@ -126,19 +126,33 @@ def merge_provinces(geojson, ip_data):
     
     # Merge geometries
     for new_name, features in province_features.items():
+        # Update properties for all features in this group to the new name
+        # (This helps if we fallback to keeping originals)
+        for f in features:
+            f['properties']['Name_EN'] = new_name
+            f['properties']['Name_VI'] = new_name
+
         if len(features) == 1:
             # Single province, no merge needed
-            merged_features[new_name] = features[0]
+            final_features.append(features[0])
         else:
             # Merge multiple provinces
             geometries = []
+            valid_features = []
+            
             for f in features:
                 try:
                     geom = shape(f['geometry'])
                     if geom.is_valid:
                         geometries.append(geom)
+                        valid_features.append(f)
                     else:
-                        geometries.append(geom.buffer(0))  # Fix invalid geometry
+                        g_fixed = geom.buffer(0)
+                        if not g_fixed.is_empty:
+                            geometries.append(g_fixed)
+                            valid_features.append(f)
+                        else:
+                             print(f"Warning: Geometry became empty after fix for {f['properties'].get('Name_EN', 'Unknown')}")
                 except Exception as e:
                     print(f"Warning: Could not process geometry for {f['properties'].get('Name_EN', 'Unknown')}: {e}")
             
@@ -155,10 +169,14 @@ def merge_provinces(geojson, ip_data):
                         },
                         'geometry': mapping(merged_geom)
                     }
-                    merged_features[new_name] = merged_feature
+                    final_features.append(merged_feature)
                 except Exception as e:
-                    print(f"Warning: Could not merge geometries for {new_name}: {e}")
-                    merged_features[new_name] = features[0]  # Use first feature as fallback
+                    print(f"Warning: Could not merge geometries for {new_name}: {e}. Keeping original features.")
+                    # Fallback: keep all valid features separately
+                    final_features.extend(valid_features)
+            else:
+                 print(f"Warning: No valid geometries for {new_name}. Keeping original features.")
+                 final_features.extend(features)
     
     # Aggregate IP data
     for old_name, ip_count in ip_data.items():
@@ -168,7 +186,7 @@ def merge_provinces(geojson, ip_data):
     # Create new GeoJSON
     new_geojson = {
         'type': 'FeatureCollection',
-        'features': list(merged_features.values())
+        'features': final_features
     }
     
     return new_geojson, dict(merged_ips)
@@ -182,29 +200,29 @@ def create_visualization(geojson, ip_data, output_path):
     max_ips = max(ip_data.values()) if ip_data else 1
     min_ips = min(ip_data.values()) if ip_data else 0
     
-    # YlOrRd color palette (matching original visualization.html)
+    # Blues color palette for province fill (8 colors matching legend)
+    blues_colors = ['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#084594']
+    
     def get_color(ips):
         if ips == 0:
             return 'black'  # No data - black like original
         
-        # Normalize to 0-1 range
+        # Normalize to 0-1 range and map to 8 bins
         ratio = min(1.0, ips / max_ips)
+        index = min(7, int(ratio * 8))  # 0-7 for 8 colors
+        return blues_colors[index]
+    
+    # YlOrRd color palette for circle markers (8 colors matching legend)
+    ylOrRd_colors = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026']
+    
+    def get_marker_color(ips):
+        if ips == 0:
+            return 'black'  # No data
         
-        # YlOrRd gradient: #ffffcc -> #fed976 -> #fd8d3c -> #e31a1c -> #bd0026
-        if ratio < 0.01:
-            return '#ffffb2'  # Very light yellow
-        elif ratio < 0.05:
-            return '#fed976'  # Light orange
-        elif ratio < 0.1:
-            return '#feb24c'  # Orange
-        elif ratio < 0.2:
-            return '#fd8d3c'  # Darker orange
-        elif ratio < 0.4:
-            return '#fc4e2a'  # Red-orange
-        elif ratio < 0.6:
-            return '#e31a1c'  # Red
-        else:
-            return '#bd0026'  # Dark red
+        # Normalize to 0-1 range and map to 8 bins
+        ratio = min(1.0, ips / max_ips)
+        index = min(7, int(ratio * 8))  # 0-7 for 8 colors
+        return ylOrRd_colors[index]
     
     # Define style function for provinces
     def style_function(feature):
@@ -214,10 +232,10 @@ def create_visualization(geojson, ip_data, output_path):
         
         return {
             'fillColor': fill_color,
-            'color': 'black',
-            'weight': 1,
+            'color': 'blue',
+            'weight': 2,
             'fillOpacity': 0.7,
-            'opacity': 0.2
+            'opacity': 0.8
         }
     
     # Add GeoJson layer with YlOrRd styling
@@ -244,8 +262,8 @@ def create_visualization(geojson, ip_data, output_path):
                 # Calculate radius based on IP count  
                 radius = max(3, min(20, 3 + (ips / max_ips) * 17))
                 
-                # Color based on IP count (matching YlOrRd)
-                marker_color = get_color(ips)
+                # Color based on IP count (using Blues palette for markers)
+                marker_color = get_marker_color(ips)
                 
                 folium.CircleMarker(
                     location=[centroid.y, centroid.x],
@@ -329,10 +347,15 @@ def add_legend_to_html(html_path, min_ips, max_ips):
         display: flex;
         font-size: 9px;
         color: #666;
+        position: relative;
+        width: 400px;
+        justify-content: space-between;
     }}
     .legend-labels span {{
-        width: 50px;
         text-align: center;
+        width: 0;
+        display: flex;
+        justify-content: center;
     }}
     </style>
     
@@ -345,23 +368,24 @@ def add_legend_to_html(html_path, min_ips, max_ips):
         legendDiv.innerHTML = `
             <div class="legend-section">
                 <div class="legend-bar">
-                    <div style="background: #ffffcc;"></div>
-                    <div style="background: #ffeda0;"></div>
-                    <div style="background: #fed976;"></div>
-                    <div style="background: #feb24c;"></div>
-                    <div style="background: #fd8d3c;"></div>
-                    <div style="background: #fc4e2a;"></div>
-                    <div style="background: #e31a1c;"></div>
-                    <div style="background: #bd0026;"></div>
+                    <div style="background: #deebf7;"></div>
+                    <div style="background: #c6dbef;"></div>
+                    <div style="background: #9ecae1;"></div>
+                    <div style="background: #6baed6;"></div>
+                    <div style="background: #4292c6;"></div>
+                    <div style="background: #2171b5;"></div>
+                    <div style="background: #08519c;"></div>
+                    <div style="background: #084594;"></div>
                 </div>
                 <div class="legend-labels">
                     <span>1</span>
-                    <span>{int(max_ips*0.14)}</span>
-                    <span>{int(max_ips*0.28)}</span>
-                    <span>{int(max_ips*0.42)}</span>
-                    <span>{int(max_ips*0.57)}</span>
-                    <span>{int(max_ips*0.71)}</span>
-                    <span>{int(max_ips*0.85)}</span>
+                    <span>{int(max_ips*0.125)}</span>
+                    <span>{int(max_ips*0.25)}</span>
+                    <span>{int(max_ips*0.375)}</span>
+                    <span>{int(max_ips*0.5)}</span>
+                    <span>{int(max_ips*0.625)}</span>
+                    <span>{int(max_ips*0.75)}</span>
+                    <span>{int(max_ips*0.875)}</span>
                     <span>{int(max_ips)}</span>
                 </div>
                 <div class="legend-title">Number of IPs by Province</div>
@@ -379,13 +403,14 @@ def add_legend_to_html(html_path, min_ips, max_ips):
                 </div>
                 <div class="legend-labels">
                     <span>1</span>
-                    <span>353</span>
-                    <span>704</span>
-                    <span>1,056</span>
-                    <span>1,407</span>
-                    <span>1,759</span>
-                    <span>2,110</span>
-                    <span>2,813</span>
+                    <span>{int(max_ips*0.125)}</span>
+                    <span>{int(max_ips*0.25)}</span>
+                    <span>{int(max_ips*0.375)}</span>
+                    <span>{int(max_ips*0.5)}</span>
+                    <span>{int(max_ips*0.625)}</span>
+                    <span>{int(max_ips*0.75)}</span>
+                    <span>{int(max_ips*0.875)}</span>
+                    <span>{int(max_ips)}</span>
                 </div>
                 <div class="legend-title">Number of IPs by AS</div>
             </div>

@@ -26,9 +26,16 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 15%;
+    right: 15%;
     z-index: 1000;
+}
+
+/* Add padding to body to account for fixed navbar */
+body {
+    padding-top: 70px;
 }
 
 .navbar-brand {
