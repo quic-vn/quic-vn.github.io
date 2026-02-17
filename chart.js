@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
             {
                 type: 'bar',
                 label: 'QUIC-enabled IPv4 Addresses',
-                data: [8337, 17278],
+                data: [8337, 17278, 17691],
                 backgroundColor: 'rgba(54, 162, 235, 0.8)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
             {
                 type: 'line',
                 label: 'Percentage of Total IPv4 (%)',
-                data: [0.05, 0.11],
+                data: [0.05, 0.11, 0.11],
                 borderColor: '#FF6384',
                 backgroundColor: '#FF6384',
                 borderWidth: 2,
