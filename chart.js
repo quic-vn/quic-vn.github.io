@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Dummy data representing the growth of QUIC adoption
     // Replace this with actual data from your research results
     const data = {
-        labels: ['Jan 2025', 'Oct 2025'],
+        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
         datasets: [
             {
                 type: 'bar',
