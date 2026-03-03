@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 borderColor: '#FF6384',
                 backgroundColor: '#FF6384',
                 borderWidth: 2,
-                tension: 0.4,
+                tension: 0,
                 fill: false,
                 pointBackgroundColor: '#FF6384',
                 yAxisID: 'y1',
