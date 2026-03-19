@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Dummy data representing the growth of QUIC adoption
     // Replace this with actual data from your research results
     const data = {
-        labels: ['Jan 2025', 'Oct 2025'],
+        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
         datasets: [
             {
                 type: 'bar',
                 label: 'QUIC-enabled IPv4 Addresses',
-                data: [8337, 17278],
+                data: [8337, 17278, 17691],
                 backgroundColor: 'rgba(54, 162, 235, 0.8)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
             {
                 type: 'line',
                 label: 'Percentage of Total IPv4 (%)',
-                data: [0.05, 0.11],
+                data: [0.05, 0.11, 0.11],
                 borderColor: '#FF6384',
                 backgroundColor: '#FF6384',
                 borderWidth: 2,
-                tension: 0.4,
+                tension: 0,
                 fill: false,
                 pointBackgroundColor: '#FF6384',
                 yAxisID: 'y1',
