@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="components.js"></script>
 </head>
+
 <body>
 
     <div id="navbar-placeholder"></div>
 
     <header class="hero">
         <h1>QUIC Deployment in Vietnam</h1>
-        <p>Studies on the potential and current status of QUIC protocol deployment on Vietnam's Internet infrastructure.</p>
+        <p>Studies on the potential and current status of QUIC protocol deployment on Vietnam's Internet infrastructure.
+        </p>
 
         <a href="#map" class="btn">View Interactive Map</a>
     </header>
@@ -22,14 +25,38 @@
     <section id="intro" class="container">
         <!-- <h2 class="section-title">Introduction</h2> -->
         <p style="">
-            <span style="font-weight: bold;">QUIC</span> <a href="#ref-1">[RFC 9000]</a> is a network transport protocol originally developed by Google and standardized by the IETF in 2021. It aims to improve performance, reduce latency, and enhance security for Internet connections. As Vietnam's digital economy continues its rapid growth <a href="#ref-5">[e-Conomy SEA 2024]</a>, understanding the adoption of modern protocols like QUIC is crucial for optimizing network infrastructure.
+            <span style="font-weight: bold;">QUIC</span> <a href="#ref-1">[RFC 9000]</a> is a network transport protocol
+            originally developed by Google and standardized by the IETF in 2021. It aims to improve performance, reduce
+            latency, and enhance security for Internet connections. As Vietnam's digital economy continues its rapid
+            growth <a href="#ref-5">[e-Conomy SEA 2024]</a>, understanding the adoption of modern protocols like QUIC is
+            crucial for optimizing network infrastructure.
         </p>
     </section>
 
     <section id="deployment-chart" class="container">
         <h2 class="section-title">QUIC Deployment Timeline</h2>
-        <p style="text-align: center; margin-bottom: 2rem;">The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam.</p>
-        
+        <p id="chartDescription" style="text-align: center; margin-bottom: 1.5rem;">The chart below illustrates the growth of QUIC-enabled IPv4
+            addresses in Vietnam.</p>
+
+        <!-- IPv4 / IPv6 Switch -->
+        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+            <div style="
+                display: inline-flex;
+                background: #e8f0fe;
+                border-radius: 8px;
+                padding: 4px;
+                gap: 4px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            ">
+                <button id="switchIPv4" class="ip-switch-btn active" onclick="void(0)">
+                    IPv4
+                </button>
+                <button id="switchIPv6" class="ip-switch-btn" onclick="void(0)">
+                    IPv6
+                </button>
+            </div>
+        </div>
+
         <div style="position: relative; height: 400px; width: 100%;">
             <canvas id="quicChart"></canvas>
         </div>
@@ -44,7 +71,7 @@
         <iframe src="visualization_34provinces.html" title="QUIC Map "></iframe>
     </section>
 
-    <section class="container" >
+    <section class="container">
         <div class="export-section">
             <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem; color: #333;">Export Data</h3>
             <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
@@ -52,19 +79,24 @@
                 <div class="export-option">
                     <h4>Specific Date</h4>
                     <div style="display: flex; gap: 0.5rem;">
-                        <select id="singleDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
-                        <button id="exportSingleBtn" class="btn" style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
+                        <select id="singleDateSelect"
+                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <button id="exportSingleBtn" class="btn"
+                            style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
                     </div>
                 </div>
-                
+
                 <!-- Range Export -->
                 <div class="export-option">
                     <h4>Date Range</h4>
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <select id="startDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <select id="startDateSelect"
+                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
                         <span style="color: #666;">to</span>
-                        <select id="endDateSelect" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
-                        <button id="exportRangeBtn" class="btn" style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
+                        <select id="endDateSelect"
+                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
+                        <button id="exportRangeBtn" class="btn"
+                            style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
                     </div>
                 </div>
             </div>
@@ -73,15 +105,18 @@
 
     <section id="intro" class="container">
         <p>
-            <span style="font-weight: bold;">Attribution: </span> 
-            We currently use the lists from lists provided by <a href="https://vnnic.vn/sites/default/files/202508-thongkeipv4vietnam.txt">VNNIC</a> (latest update: August 31, 2025) to identify Vietnamese IP addresses.
+            <span style="font-weight: bold;">Attribution: </span>
+            We currently use the lists from lists provided by <a
+                href="https://vnnic.vn/sites/default/files/202508-thongkeipv4vietnam.txt">VNNIC</a> (latest update:
+            August 31, 2025) to identify Vietnamese IP addresses.
         </p>
 
         <div class="two-column-grid">
             <div class="info-column">
                 <h3>Updates</h3>
                 <ul class="info-list">
-                    <li><span class="badge">New</span> <strong>Feb 17, 2026:</strong> Completed the data update scan.</li>
+                    <li><span class="badge">New</span> <strong>Feb 17, 2026:</strong> Completed the data update scan.
+                    </li>
                     <li><strong>Nov 01, 2025:</strong> Completed the data update scan.</li>
                     <li><strong>Feb 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
                     <li><strong>Nov 20, 2024:</strong> Integrated VNNIC IP data sources.</li>
@@ -90,10 +125,18 @@
             <div class="info-column">
                 <h3>Related Work & References</h3>
                 <ul class="info-list">
-                    <li id="ref-1"><strong>QUIC Standard:</strong> We rely on <a href="https://doi.org/10.17487/RFC9000">RFC 9000</a> to verify protocol compliance and distinguish IETF QUIC from older gQUIC versions.</li>
-                    <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes <a href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide scanning to detect potential QUIC hosts.</li>
-                    <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from <a href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a>  to identify QUIC deployments and server libraries.</li>
-                    <li id="ref-5"><strong>Economic Context:</strong> The <a href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context on Vietnam's rapidly growing digital economy.</li>
+                    <li id="ref-1"><strong>QUIC Standard:</strong> We rely on <a
+                            href="https://doi.org/10.17487/RFC9000">RFC 9000</a> to verify protocol compliance and
+                        distinguish IETF QUIC from older gQUIC versions.</li>
+                    <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes <a
+                            href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide
+                        scanning to detect potential QUIC hosts.</li>
+                    <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from <a
+                            href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a> to identify QUIC
+                        deployments and server libraries.</li>
+                    <li id="ref-5"><strong>Economic Context:</strong> The <a
+                            href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context on
+                        Vietnam's rapidly growing digital economy.</li>
                 </ul>
             </div>
         </div>
@@ -101,7 +144,20 @@
         <div style="margin-top: 4rem; border-top: 1px solid #eee; padding-top: 2rem;">
             <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight: normal;">About this project</h3>
             <p style="margin-bottom: 1.5rem;">
-            Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers several significant advantages over traditional TCP, including reduced latency, enhanced multiplexing capabilities, and strong security through built-in encryption and optimized handshake processes. Because of these benefits, even before its standardization in 2021, QUIC was widely deployed by major Internet companies such as Google and Facebook. Additionally, previous research has observed an increase in global adoption of QUIC. Motivated by this trend, we investigate QUIC deployment in Vietnam, particularly in the context of the country's rapid development, especially in the ICT sector. Specifically, we scan and analyze QUIC adoption using a Vietnamese IPv4 dataset. The scanning results indicate that QUIC adoption in Vietnam is in the early stages, with a low deployment rate of approximately 0.05% of all Vietnamese IPv4 addresses. Furthermore, we analyze active migration support, TLS encryption preferences, and visualize a map of QUIC adoption to track its ongoing deployment patterns. In addition, we conduct active measurements showing that QUIC achieves lower time to first byte (TTFB) and higher throughput than TCP in Wi-Fi networks, while offering competitive performance in mobile networks.
+                Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers several
+                significant advantages over traditional TCP, including reduced latency, enhanced multiplexing
+                capabilities, and strong security through built-in encryption and optimized handshake processes. Because
+                of these benefits, even before its standardization in 2021, QUIC was widely deployed by major Internet
+                companies such as Google and Facebook. Additionally, previous research has observed an increase in
+                global adoption of QUIC. Motivated by this trend, we investigate QUIC deployment in Vietnam,
+                particularly in the context of the country's rapid development, especially in the ICT sector.
+                Specifically, we scan and analyze QUIC adoption using a Vietnamese IPv4 dataset. The scanning results
+                indicate that QUIC adoption in Vietnam is in the early stages, with a low deployment rate of
+                approximately 0.05% of all Vietnamese IPv4 addresses. Furthermore, we analyze active migration support,
+                TLS encryption preferences, and visualize a map of QUIC adoption to track its ongoing deployment
+                patterns. In addition, we conduct active measurements showing that QUIC achieves lower time to first
+                byte (TTFB) and higher throughput than TCP in Wi-Fi networks, while offering competitive performance in
+                mobile networks.
             </p>
             <!-- <p style="margin-bottom: 1.5rem;">
                 <a href="results.html" style="color: var(--accent-color); text-decoration: none;">We uncovered</a> how QUIC is being adopted across different ISPs and geographic regions in Vietnam. Our study provides a detailed snapshot of the current landscape, highlighting the dominance of IETF QUIC (RFC 9000) and the security configurations preferred by local servers. This data is crucial for understanding the performance and security implications of the shifting internet transport layer.
@@ -114,10 +170,18 @@
         <div style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 2rem;">
             <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight: normal;">About us</h3>
             <p>
-                Feel free to contact us regarding this project and our research: <a href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn" style="color: var(--accent-color); text-decoration: none;">trung.nguyenthanh@phenikaa-uni.edu.vn</a> <i>(main contact)</i>
+                Feel free to contact us regarding this project and our research: <a
+                    href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn"
+                    style="color: var(--accent-color); text-decoration: none;">trung.nguyenthanh@phenikaa-uni.edu.vn</a>
+                <i>(main contact)</i>
             </p>
             <p>
-                The source code for this project website is available on <a href="https://github.com/quic-vn/quic-vn.github.io" style="color: var(--accent-color); text-decoration: none;">GitHub</a>. If you run into any problems with the data or the website, you can create <a href="https://github.com/quic-vn/quic-vn.github.io/issues" style="color: var(--accent-color); text-decoration: none;">an issue there</a>.
+                The source code for this project website is available on <a
+                    href="https://github.com/quic-vn/quic-vn.github.io"
+                    style="color: var(--accent-color); text-decoration: none;">GitHub</a>. If you run into any problems
+                with the data or the website, you can create <a
+                    href="https://github.com/quic-vn/quic-vn.github.io/issues"
+                    style="color: var(--accent-color); text-decoration: none;">an issue there</a>.
             </p>
         </div>
 
@@ -128,4 +192,5 @@
     <div id="footer-placeholder"></div>
 
 </body>
+
 </html>

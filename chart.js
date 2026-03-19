@@ -1,39 +1,78 @@
 document.addEventListener('DOMContentLoaded', function () {
     const ctx = document.getElementById('quicChart').getContext('2d');
 
-    // Dummy data representing the growth of QUIC adoption
-    // Replace this with actual data from your research results
-    const data = {
+    // --- Data ---
+    const ipv4Data = {
         labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
-        datasets: [
-            {
-                type: 'bar',
-                label: 'QUIC-enabled IPv4 Addresses',
-                data: [8337, 17278, 17691],
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                yAxisID: 'y',
-                order: 2
-            },
-            {
-                type: 'line',
-                label: 'Percentage of Total IPv4 (%)',
-                data: [0.05, 0.11, 0.11],
-                borderColor: '#FF6384',
-                backgroundColor: '#FF6384',
-                borderWidth: 2,
-                tension: 0,
-                fill: false,
-                pointBackgroundColor: '#FF6384',
-                yAxisID: 'y1',
-                order: 1
-            }
-        ]
+        bar: {
+            label: 'QUIC-enabled IPv4 Addresses',
+            data: [8337, 17278, 17691],
+        },
+        line: {
+            label: 'Percentage of Total IPv4 enabled QUIC (%)',
+            data: [0.05, 0.11, 0.11],
+        },
+        yAxisLabel: 'Number of Addresses',
+        chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv4)',
     };
 
+    // IPv6: Jan 2025 & Oct 2025 = no stats (null), Feb 2026 = 3518
+    const ipv6Data = {
+        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
+        bar: {
+            label: 'QUIC-enabled IPv6 Addresses',
+            data: [null, null, 3518],
+        },
+        line: {
+            label: 'Percentage of Total IPv6 enabled QUIC (%)',
+            data: [null, null, 0.3945], // 3518 / 891658 * 100 ≈ 0.3945%
+        },
+        yAxisLabel: 'Number of Addresses',
+        chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv6)',
+    };
+
+    let currentMode = 'ipv4'; // 'ipv4' | 'ipv6'
+
+    // --- Chart Config ---
+    function buildChartData(d) {
+        return {
+            labels: d.labels,
+            datasets: [
+                {
+                    type: 'bar',
+                    label: d.bar.label,
+                    data: d.bar.data,
+                    backgroundColor: currentMode === 'ipv4'
+                        ? 'rgba(54, 162, 235, 0.8)'
+                        : 'rgba(72, 199, 142, 0.8)',
+                    borderColor: currentMode === 'ipv4'
+                        ? 'rgba(54, 162, 235, 1)'
+                        : 'rgba(72, 199, 142, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y',
+                    order: 2,
+                    spanGaps: false,
+                },
+                {
+                    type: 'line',
+                    label: d.line.label,
+                    data: d.line.data,
+                    borderColor: '#FF6384',
+                    backgroundColor: '#FF6384',
+                    borderWidth: 2,
+                    tension: 0,
+                    fill: false,
+                    pointBackgroundColor: '#FF6384',
+                    yAxisID: 'y1',
+                    order: 1,
+                    spanGaps: false,
+                }
+            ]
+        };
+    }
+
     const config = {
-        data: data,
+        data: buildChartData(ipv4Data),
         options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -45,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
                             size: 12,
                             weight: 'bold'
-                        }
+                        },
                     }
                 },
                 title: {
                     display: true,
-                    text: 'Growth of QUIC Adoption in Vietnam',
+                    text: ipv4Data.chartTitle,
                     font: {
                         size: 16,
                         family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
@@ -64,6 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 tooltip: {
                     mode: 'index',
                     intersect: false,
+                    callbacks: {
+                        label: function (context) {
+                            const val = context.parsed.y;
+                            if (val === null || val === undefined) {
+                                return context.dataset.label + ': No statistics available';
+                            }
+                            return context.dataset.label + ': ' + val.toLocaleString();
+                        }
+                    }
                 }
             },
             scales: {
@@ -107,26 +155,75 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
 
-    new Chart(ctx, config);
+    const chart = new Chart(ctx, config);
+
+    // --- Switch Logic ---
+    const btnIPv4 = document.getElementById('switchIPv4');
+    const btnIPv6 = document.getElementById('switchIPv6');
+    const chartDescription = document.getElementById('chartDescription');
+
+    function switchChart(mode) {
+        currentMode = mode;
+        const d = mode === 'ipv4' ? ipv4Data : ipv6Data;
+
+        // Update data
+        chart.data = buildChartData(d);
+
+        // Update title
+        chart.options.plugins.title.text = d.chartTitle;
+
+        chart.options.scales.y1.display = true;
+
+        chart.update();
+
+        // Update button states
+        if (btnIPv4 && btnIPv6) {
+            if (mode === 'ipv4') {
+                btnIPv4.classList.add('active');
+                btnIPv6.classList.remove('active');
+            } else {
+                btnIPv6.classList.add('active');
+                btnIPv4.classList.remove('active');
+            }
+        }
+
+        // Update description text
+        if (chartDescription) {
+            if (mode === 'ipv4') {
+                chartDescription.textContent = 'The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam.';
+            } else {
+                chartDescription.textContent = 'The chart below illustrates the growth of QUIC-enabled IPv6 addresses in Vietnam.';
+            }
+        }
+
+        // Re-populate export selects with current dataset labels
+        populateExportSelects(d);
+    }
+
+    if (btnIPv4) btnIPv4.addEventListener('click', () => switchChart('ipv4'));
+    if (btnIPv6) btnIPv6.addEventListener('click', () => switchChart('ipv6'));
 
     // --- Export Functionality ---
-
-    // Populate Export Options
     const singleDateSelect = document.getElementById('singleDateSelect');
     const startDateSelect = document.getElementById('startDateSelect');
     const endDateSelect = document.getElementById('endDateSelect');
 
-    if (singleDateSelect && startDateSelect && endDateSelect) {
-        data.labels.forEach((label, index) => {
+    function populateExportSelects(d) {
+        if (!singleDateSelect || !startDateSelect || !endDateSelect) return;
+        [singleDateSelect, startDateSelect, endDateSelect].forEach(sel => {
+            sel.innerHTML = '';
+        });
+        d.labels.forEach((label, index) => {
             const option = new Option(label, index);
             singleDateSelect.add(option.cloneNode(true));
             startDateSelect.add(option.cloneNode(true));
             endDateSelect.add(option.cloneNode(true));
         });
-
-        // Set default for end date to last option
-        endDateSelect.value = data.labels.length - 1;
+        endDateSelect.value = d.labels.length - 1;
     }
+
+    // Initial population
+    populateExportSelects(ipv4Data);
 
     function downloadCSV(filename, rows) {
         const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
@@ -141,14 +238,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getCSVData(indices) {
-        const datasets = config.data.datasets || [];
+        const datasets = chart.data.datasets || [];
+        const currentData = currentMode === 'ipv4' ? ipv4Data : ipv6Data;
         const header = ['Date', ...datasets.map(ds => ds.label || 'Series')];
         const rows = [header.join(',')];
 
         indices.forEach(i => {
-            const label = config.data.labels[i];
+            const label = currentData.labels[i];
             const row = [label, ...datasets.map(ds => {
                 const v = Array.isArray(ds.data) ? ds.data[i] : '';
+                if (v === null || v === undefined) return 'N/A';
                 return typeof v === 'number' ? v : (v ?? '');
             })];
             rows.push(row.join(','));
@@ -162,8 +261,9 @@ document.addEventListener('DOMContentLoaded', function () {
         exportSingleBtn.addEventListener('click', function () {
             const index = parseInt(singleDateSelect.value);
             const rows = getCSVData([index]);
-            const label = config.data.labels[index].replace(/\s+/g, '_');
-            downloadCSV(`quic_data_${label}.csv`, rows);
+            const currentData = currentMode === 'ipv4' ? ipv4Data : ipv6Data;
+            const label = currentData.labels[index].replace(/\s+/g, '_');
+            downloadCSV(`quic_${currentMode}_data_${label}.csv`, rows);
         });
     }
 
@@ -185,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const rows = getCSVData(indices);
-            downloadCSV('quic_data_range.csv', rows);
+            downloadCSV(`quic_${currentMode}_data_range.csv`, rows);
         });
     }
 });
