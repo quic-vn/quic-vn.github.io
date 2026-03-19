@@ -99,7 +99,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Chart.register(sampleSizeBadgePlugin);
 
-    // --- Chart Config ---
+    // --- Scale sync helper ---
+    // Makes the dot sit exactly on the bar top by ensuring:
+    //   lineMax / y1.max  ===  barMax / y.max
+    // i.e. both values occupy the same fraction of their axes.
+    function computeSyncedScales(d) {
+        const barVals = d.bar.data.filter(v => v != null && v > 0);
+        const lineVals = d.line.data.filter(v => v != null && v > 0);
+        if (!barVals.length || !lineVals.length) return { yMax: undefined, y1Max: undefined, ticksCount: undefined };
+
+        const barMax = Math.max(...barVals);
+        const lineMax = Math.max(...lineVals);
+        const PADDING = 2; // 100% headroom above the tallest bar
+        
+        // Find a "nice" step size for the Y axis
+        const targetRange = barMax * PADDING;
+        const roughStep = targetRange / 6; 
+        const mag = Math.floor(Math.log10(roughStep || 1));
+        const magPow = Math.pow(10, mag);
+        const roughMsd = roughStep / magPow;
+        let stepMsd;
+
+        if (roughMsd <= 1.5) stepMsd = 1;
+        else if (roughMsd <= 3.5) stepMsd = 2;
+        else if (roughMsd <= 7.5) stepMsd = 5;
+        else stepMsd = 10;
+
+        const yStep = stepMsd * magPow;
+        const yMax = Math.ceil(targetRange / yStep) * yStep;
+        const ticksCount = Math.round(yMax / yStep) + 1; // Number of ticks including 0
+
+        // Synchronize y1 scales exactly proportionally
+        const y1Max = lineMax * (yMax / barMax);
+
+        return { yMax, y1Max, ticksCount };
+    }
+
+    const initScales = computeSyncedScales(ipv4Data);
+
     function buildChartData(d) {
         return {
             labels: d.labels,
@@ -190,6 +227,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     display: true,
                     position: 'left',
                     beginAtZero: true,
+                    max: initScales.yMax,
+                    ticks: {
+                        count: initScales.ticksCount
+                    },
                     title: {
                         display: true,
                         text: 'Number of Addresses'
@@ -203,6 +244,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     display: true,
                     position: 'right',
                     beginAtZero: true,
+                    max: initScales.y1Max,
+                    ticks: {
+                        count: initScales.ticksCount,
+                        callback: function(value) {
+                            return Number(value.toFixed(3));
+                        }
+                    },
                     title: {
                         display: true,
                         text: 'Percentage (%)'
@@ -248,6 +296,13 @@ document.addEventListener('DOMContentLoaded', function () {
             chart.options.plugins.sampleSizeBadge.display = false;
         }
 
+        // Sync scales so dot lands exactly on bar top, and grids perfectly align
+        const scales = computeSyncedScales(d);
+        chart.options.scales.y.max = scales.yMax;
+        chart.options.scales.y.ticks.count = scales.ticksCount;
+        
+        chart.options.scales.y1.max = scales.y1Max;
+        chart.options.scales.y1.ticks.count = scales.ticksCount;
         chart.options.scales.y1.display = true;
 
         chart.update();
