@@ -20,18 +20,84 @@ document.addEventListener('DOMContentLoaded', function () {
     const ipv6Data = {
         labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
         bar: {
-            label: 'QUIC-enabled IPv6 Addresses',
+            label: 'QUIC-enabled IPv6 Addresses (hitlist)',
             data: [null, null, 3518],
         },
         line: {
             label: 'Percentage of Total IPv6 enabled QUIC (%)',
-            data: [null, null, 0.3945], // 3518 / 891658 * 100 ≈ 0.3945%
+            data: [null, null, 0.3944], // 3518 / 891685 * 100 ≈ 0.3944%
         },
         yAxisLabel: 'Number of Addresses',
         chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv6)',
     };
 
     let currentMode = 'ipv4'; // 'ipv4' | 'ipv6'
+
+    // --- Custom plugin: draws sample-size badge inside chart area ---
+    const sampleSizeBadgePlugin = {
+        id: 'sampleSizeBadge',
+        afterDraw(chart) {
+            const opts = chart.options.plugins.sampleSizeBadge;
+            if (!opts || !opts.display) return;
+
+            const { ctx, chartArea: { left, top, right } } = chart;
+            const text1 = 'Total IPv6 (hitlist)';
+            const text2 = opts.total;
+
+            const pad = { x: 12, y: 8 };
+            const lineGap = 4;
+
+            ctx.save();
+
+            // Measure text
+            ctx.font = 'bold 11px "Helvetica Neue", Helvetica, Arial, sans-serif';
+            const w1 = ctx.measureText(text1).width;
+            ctx.font = 'bold 15px "Helvetica Neue", Helvetica, Arial, sans-serif';
+            const w2 = ctx.measureText(text2).width;
+
+            const boxW = Math.max(w1, w2) + pad.x * 2;
+            const boxH = 11 + lineGap + 15 + pad.y * 2;
+            const bx = left + 12;
+            const by = top + 12;
+            const radius = 6;
+
+            // Draw rounded rect background
+            ctx.beginPath();
+            ctx.moveTo(bx + radius, by);
+            ctx.lineTo(bx + boxW - radius, by);
+            ctx.quadraticCurveTo(bx + boxW, by, bx + boxW, by + radius);
+            ctx.lineTo(bx + boxW, by + boxH - radius);
+            ctx.quadraticCurveTo(bx + boxW, by + boxH, bx + boxW - radius, by + boxH);
+            ctx.lineTo(bx + radius, by + boxH);
+            ctx.quadraticCurveTo(bx, by + boxH, bx, by + boxH - radius);
+            ctx.lineTo(bx, by + radius);
+            ctx.quadraticCurveTo(bx, by, bx + radius, by);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(72, 199, 142, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(72, 199, 142, 0.6)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+
+            const cx = bx + boxW / 2;
+
+            // Label row
+            ctx.fillStyle = '#555';
+            ctx.font = '11px "Helvetica Neue", Helvetica, Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText(text1, cx, by + pad.y);
+
+            // Value row
+            ctx.fillStyle = '#2d6a4f';
+            ctx.font = 'bold 15px "Helvetica Neue", Helvetica, Arial, sans-serif';
+            ctx.fillText(text2, cx, by + pad.y + 11 + lineGap);
+
+            ctx.restore();
+        }
+    };
+
+    Chart.register(sampleSizeBadgePlugin);
 
     // --- Chart Config ---
     function buildChartData(d) {
@@ -99,6 +165,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         top: 10,
                         bottom: 30
                     }
+                },
+                sampleSizeBadge: {
+                    display: false,
+                    total: ''
                 },
                 tooltip: {
                     mode: 'index',
@@ -169,8 +239,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update data
         chart.data = buildChartData(d);
 
-        // Update title
+        // Update title & in-chart badge
         chart.options.plugins.title.text = d.chartTitle;
+        if (mode === 'ipv6') {
+            chart.options.plugins.sampleSizeBadge.display = true;
+            chart.options.plugins.sampleSizeBadge.total = '891,685';
+        } else {
+            chart.options.plugins.sampleSizeBadge.display = false;
+        }
 
         chart.options.scales.y1.display = true;
 
