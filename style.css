@@ -203,11 +203,11 @@ iframe {
     flex-direction: column;
 }
 
-.method-item:hover {
-    /* transform: translateY(-5px);
+/* .method-item:hover {
+    transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(0,0,0,0.1);
-    border-color: var(--accent-color); */
-}
+    border-color: var(--accent-color);
+} */
 
 .method-item h3 {
     color: var(--primary-color);
@@ -537,10 +537,7 @@ footer {
         display: none;
     }
 
-    .navbar-brand {
-        /* Center brand on mobile if desired, or keep left */
-        /* margin: 0 auto; */
-    }
+    /* .navbar-brand { margin: 0 auto; } */
 
     .container {
         padding: 0 1rem 2rem;
@@ -594,4 +591,29 @@ footer {
 iframe {
     max-width: 100%;
     width: 100%;
+}
+
+/* IPv4 / IPv6 Switch Buttons */
+.ip-switch-btn {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 0.45rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.03em;
+}
+
+.ip-switch-btn:hover {
+    background: rgba(52, 152, 219, 0.12);
+    color: var(--accent-color);
+}
+
+.ip-switch-btn.active {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 6px rgba(52, 152, 219, 0.35);
 }

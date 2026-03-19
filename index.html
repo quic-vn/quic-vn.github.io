@@ -35,8 +35,27 @@
 
     <section id="deployment-chart" class="container">
         <h2 class="section-title">QUIC Deployment Timeline</h2>
-        <p style="text-align: center; margin-bottom: 2rem;">The chart below illustrates the growth of QUIC-enabled IPv4
+        <p id="chartDescription" style="text-align: center; margin-bottom: 1.5rem;">The chart below illustrates the growth of QUIC-enabled IPv4
             addresses in Vietnam.</p>
+
+        <!-- IPv4 / IPv6 Switch -->
+        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+            <div style="
+                display: inline-flex;
+                background: #e8f0fe;
+                border-radius: 8px;
+                padding: 4px;
+                gap: 4px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            ">
+                <button id="switchIPv4" class="ip-switch-btn active" onclick="void(0)">
+                    IPv4
+                </button>
+                <button id="switchIPv6" class="ip-switch-btn" onclick="void(0)">
+                    IPv6
+                </button>
+            </div>
+        </div>
 
         <div style="position: relative; height: 400px; width: 100%;">
             <canvas id="quicChart"></canvas>
