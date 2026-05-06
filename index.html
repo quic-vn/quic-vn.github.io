@@ -4,193 +4,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUIC Deployment in Vietnam</title>
+    <meta name="description"
+        content="Research portal for QUIC deployment measurements across ASEAN and Vietnam, including interactive maps, deployment timelines, and downloadable data.">
+    <title>QUIC Deployment in ASEAN and Vietnam</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="components.js"></script>
 </head>
 
 <body>
-
-    <div id="navbar-placeholder"></div>
-
-    <header class="hero">
-        <h1>QUIC Deployment in Vietnam</h1>
-        <p>Studies on the potential and current status of QUIC protocol deployment on Vietnam's Internet infrastructure.
-        </p>
-
-        <a href="#map" class="btn">View Interactive Map</a>
-    </header>
-
-    <section id="intro" class="container">
-        <!-- <h2 class="section-title">Introduction</h2> -->
-        <p style="">
-            <span style="font-weight: bold;">QUIC</span> <a href="#ref-1">[RFC 9000]</a> is a network transport protocol
-            originally developed by Google and standardized by the IETF in 2021. It aims to improve performance, reduce
-            latency, and enhance security for Internet connections. As Vietnam's digital economy continues its rapid
-            growth <a href="#ref-5">[e-Conomy SEA 2024]</a>, understanding the adoption of modern protocols like QUIC is
-            crucial for optimizing network infrastructure.
-        </p>
-    </section>
-
-    <section id="deployment-chart" class="container">
-        <h2 class="section-title">QUIC Deployment Timeline</h2>
-        <p id="chartDescription" style="text-align: center; margin-bottom: 1.5rem;">The chart below illustrates the growth of QUIC-enabled IPv4
-            addresses in Vietnam.</p>
-
-        <!-- IPv4 / IPv6 Switch -->
-        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-            <div style="
-                display: inline-flex;
-                background: #e8f0fe;
-                border-radius: 8px;
-                padding: 4px;
-                gap: 4px;
-                box-shadow: 0 1px 4px rgba(0,0,0,0.10);
-            ">
-                <button id="switchIPv4" class="ip-switch-btn active" onclick="void(0)">
-                    IPv4
+    <div id="navbar-placeholder">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
                 </button>
-                <button id="switchIPv6" class="ip-switch-btn" onclick="void(0)">
-                    IPv6
-                </button>
+
+                <a href="index.html" class="navbar-brand">QUIC Vietnam</a>
+
+                <div class="nav-links desktop-only">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="#map">Map</a>
+                    <a href="methodology.html">ComEX'25</a>
+                    <a href="authors.html">About us</a>
+                </div>
             </div>
-        </div>
 
-        <div style="position: relative; height: 400px; width: 100%;">
-            <canvas id="quicChart"></canvas>
-        </div>
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">Menu</span>
+                    <button class="close-sidebar-btn" id="closeSidebarBtn" type="button">&times;</button>
+                </div>
+                <div class="sidebar-content">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="#map">Map</a>
+                    <a href="methodology.html">ComEX'25</a>
+                    <a href="authors.html">About us</a>
+                    <div class="sidebar-divider"></div>
+                </div>
+            </div>
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        </nav>
+    </div>
 
-    </section>
+    <main>
+        <header class="hero hero-home">
+            <div class="hero-kicker">Internet measurement research</div>
+            <h1>QUIC Deployment in ASEAN and Vietnam</h1>
+            <p>
+                Measurements and visualizations of QUIC protocol adoption across ASEAN, with a focused longitudinal
+                study of Vietnam's Internet infrastructure.
+            </p>
+            <div class="hero-actions">
+                <a href="#asean-map" class="btn">ASEAN Map</a>
+                <a href="#map" class="btn btn-secondary">Vietnam Map</a>
+            </div>
+        </header>
+
+        <section id="overview" class="container">
+            <p class="lead">
+                <strong>QUIC</strong> <a href="#ref-1">[RFC 9000]</a> is a network transport protocol originally
+                developed by Google and standardized by the IETF in 2021. It improves performance, reduces latency, and
+                strengthens security for Internet connections. As Vietnam's digital economy continues its rapid growth
+                <a href="#ref-5">[e-Conomy SEA 2024]</a>, understanding the adoption of modern protocols like QUIC is
+                important for optimizing network infrastructure.
+            </p>
+        </section>
+
+        <section id="asean-map" class="container map-block">
+            <div class="section-heading">
+                <span class="section-label">ASEAN</span>
+                <h2 class="section-title">Regional QUIC Deployment Map</h2>
+                <p>The map visualizes the geographic distribution of QUIC-enabled servers across ASEAN.</p>
+            </div>
+            <iframe src="asean_quic_enabled_heatmap.html" title="ASEAN QUIC deployment heatmap"></iframe>
+        </section>
+
+        <section id="deployment-chart" class="container">
+            <div class="section-heading">
+                <span class="section-label">Vietnam</span>
+                <h2 class="section-title">QUIC Deployment Timeline</h2>
+                <p id="chartDescription">
+                    The chart below illustrates the growth of QUIC-enabled IPv4 addresses in Vietnam.
+                </p>
+            </div>
+
+            <div class="ip-switch" aria-label="IP version selector">
+                <button id="switchIPv4" class="ip-switch-btn active" type="button">IPv4</button>
+                <button id="switchIPv6" class="ip-switch-btn" type="button">IPv6</button>
+            </div>
+
+            <div class="chart-wrap">
+                <canvas id="quicChart"></canvas>
+            </div>
+        </section>
+
+        <section id="map" class="container map-block">
+            <div class="section-heading">
+                <span class="section-label">Vietnam</span>
+                <h2 class="section-title">Interactive QUIC Deployment Map</h2>
+                <p>
+                    The map visualizes the geographic and AS-level distribution of QUIC-enabled servers across Vietnam.
+                </p>
+            </div>
+            <iframe src="visualization_34provinces.html" title="Vietnam QUIC deployment map"></iframe>
+        </section>
+
+        <section id="export-data" class="container">
+            <div class="export-section">
+                <div class="section-heading compact">
+                    <span class="section-label">Dataset</span>
+                    <h2 class="section-title">Export Data</h2>
+                    <p>Download the currently selected Vietnam IPv4 or IPv6 deployment timeline as CSV.</p>
+                </div>
+
+                <div class="export-grid">
+                    <div class="export-option">
+                        <h3>Specific Date</h3>
+                        <div class="export-controls">
+                            <select id="singleDateSelect" aria-label="Select export date"></select>
+                            <button id="exportSingleBtn" class="btn" type="button">Download</button>
+                        </div>
+                    </div>
+
+                    <div class="export-option">
+                        <h3>Date Range</h3>
+                        <div class="export-controls range-controls">
+                            <select id="startDateSelect" aria-label="Select export start date"></select>
+                            <span>to</span>
+                            <select id="endDateSelect" aria-label="Select export end date"></select>
+                            <button id="exportRangeBtn" class="btn" type="button">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="project-info" class="container">
+            <p>
+                <strong>Attribution:</strong>
+                We currently use the lists provided by
+                <a href="https://vnnic.vn/sites/default/files/202508-thongkeipv4vietnam.txt">VNNIC</a>
+                (latest update: August 31, 2025) to identify Vietnamese IP addresses.
+            </p>
+
+            <div class="two-column-grid">
+                <div class="info-column">
+                    <h2>Updates</h2>
+                    <ul class="info-list">
+                        <li><span class="badge">New</span> <strong>Feb 17, 2026:</strong> Completed the data update scan.</li>
+                        <li><strong>Nov 01, 2025:</strong> Completed the data update scan.</li>
+                        <li><strong>Feb 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
+                        <li><strong>Nov 20, 2024:</strong> Integrated VNNIC IP data sources.</li>
+                    </ul>
+                </div>
+
+                <div class="info-column">
+                    <h2>Related Work & References</h2>
+                    <ul class="info-list">
+                        <li id="ref-1"><strong>QUIC Standard:</strong> We rely on
+                            <a href="https://doi.org/10.17487/RFC9000">RFC 9000</a> to verify protocol compliance and
+                            distinguish IETF QUIC from older gQUIC versions.</li>
+                        <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes
+                            <a href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide
+                            scanning to detect potential QUIC hosts.</li>
+                        <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from
+                            <a href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a> to identify QUIC
+                            deployments and server libraries.</li>
+                        <li id="ref-5"><strong>Economic Context:</strong> The
+                            <a href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context
+                            on Vietnam's rapidly growing digital economy.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>About This Project</h2>
+                <p>
+                    Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers significant
+                    advantages over traditional TCP, including reduced latency, enhanced multiplexing, built-in
+                    encryption, and optimized handshake processes. Because of these benefits, QUIC has been widely
+                    deployed by major Internet companies, and previous research has observed increasing global adoption.
+                </p>
+                <p>
+                    Motivated by this trend, we investigate QUIC deployment in Vietnam using Vietnamese IPv4 datasets.
+                    Our scanning results indicate that QUIC adoption in Vietnam remains in the early stages, with a low
+                    deployment rate of approximately 0.05% of all Vietnamese IPv4 addresses. We also analyze active
+                    migration support, TLS encryption preferences, geographic deployment patterns, and performance
+                    differences between QUIC and TCP across Wi-Fi and mobile networks.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>About Us</h2>
+                <p>
+                    For questions about this project and our research, contact
+                    <a href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn">trung.nguyenthanh@phenikaa-uni.edu.vn</a>
+                    <i>(main contact)</i>.
+                </p>
+                <p>
+                    The source code for this project website is available on
+                    <a href="https://github.com/quic-vn/quic-vn.github.io">GitHub</a>. If you run into any problems
+                    with the data or the website, please create
+                    <a href="https://github.com/quic-vn/quic-vn.github.io/issues">an issue</a>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder">
+        <footer>
+            <p>&copy; 2025 QUIC Vietnam &middot; Funded by JSPS &amp; VINIF &middot; Hosted on GitHub Pages</p>
+        </footer>
+    </div>
     <script src="chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+            const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+            const mobileSidebar = document.getElementById("mobileSidebar");
+            const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-    <section id="map" class="container">
-        <h2 class="section-title">Interactive Map of QUIC Deployment</h2>
-        <p style="text-align: center; margin-bottom: 2rem;">The map below visualizes the geographic and AS-level
-            distribution of QUIC-enabled servers across Vietnam.</p>
-        <iframe src="visualization_34provinces.html" title="QUIC Map "></iframe>
-    </section>
+            function openSidebar() {
+                mobileSidebar.classList.add("active");
+                sidebarOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
 
-    <section class="container">
-        <div class="export-section">
-            <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem; color: #333;">Export Data</h3>
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <!-- Single Date Export -->
-                <div class="export-option">
-                    <h4>Specific Date</h4>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <select id="singleDateSelect"
-                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
-                        <button id="exportSingleBtn" class="btn"
-                            style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
-                    </div>
-                </div>
+            function closeSidebar() {
+                mobileSidebar.classList.remove("active");
+                sidebarOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            }
 
-                <!-- Range Export -->
-                <div class="export-option">
-                    <h4>Date Range</h4>
-                    <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <select id="startDateSelect"
-                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
-                        <span style="color: #666;">to</span>
-                        <select id="endDateSelect"
-                            style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; background: white;"></select>
-                        <button id="exportRangeBtn" class="btn"
-                            style="margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Download</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="intro" class="container">
-        <p>
-            <span style="font-weight: bold;">Attribution: </span>
-            We currently use the lists from lists provided by <a
-                href="https://vnnic.vn/sites/default/files/202508-thongkeipv4vietnam.txt">VNNIC</a> (latest update:
-            August 31, 2025) to identify Vietnamese IP addresses.
-        </p>
-
-        <div class="two-column-grid">
-            <div class="info-column">
-                <h3>Updates</h3>
-                <ul class="info-list">
-                    <li><span class="badge">New</span> <strong>Feb 17, 2026:</strong> Completed the data update scan.
-                    </li>
-                    <li><strong>Nov 01, 2025:</strong> Completed the data update scan.</li>
-                    <li><strong>Feb 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
-                    <li><strong>Nov 20, 2024:</strong> Integrated VNNIC IP data sources.</li>
-                </ul>
-            </div>
-            <div class="info-column">
-                <h3>Related Work & References</h3>
-                <ul class="info-list">
-                    <li id="ref-1"><strong>QUIC Standard:</strong> We rely on <a
-                            href="https://doi.org/10.17487/RFC9000">RFC 9000</a> to verify protocol compliance and
-                        distinguish IETF QUIC from older gQUIC versions.</li>
-                    <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes <a
-                            href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide
-                        scanning to detect potential QUIC hosts.</li>
-                    <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from <a
-                            href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a> to identify QUIC
-                        deployments and server libraries.</li>
-                    <li id="ref-5"><strong>Economic Context:</strong> The <a
-                            href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context on
-                        Vietnam's rapidly growing digital economy.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div style="margin-top: 4rem; border-top: 1px solid #eee; padding-top: 2rem;">
-            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight: normal;">About this project</h3>
-            <p style="margin-bottom: 1.5rem;">
-                Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers several
-                significant advantages over traditional TCP, including reduced latency, enhanced multiplexing
-                capabilities, and strong security through built-in encryption and optimized handshake processes. Because
-                of these benefits, even before its standardization in 2021, QUIC was widely deployed by major Internet
-                companies such as Google and Facebook. Additionally, previous research has observed an increase in
-                global adoption of QUIC. Motivated by this trend, we investigate QUIC deployment in Vietnam,
-                particularly in the context of the country's rapid development, especially in the ICT sector.
-                Specifically, we scan and analyze QUIC adoption using a Vietnamese IPv4 dataset. The scanning results
-                indicate that QUIC adoption in Vietnam is in the early stages, with a low deployment rate of
-                approximately 0.05% of all Vietnamese IPv4 addresses. Furthermore, we analyze active migration support,
-                TLS encryption preferences, and visualize a map of QUIC adoption to track its ongoing deployment
-                patterns. In addition, we conduct active measurements showing that QUIC achieves lower time to first
-                byte (TTFB) and higher throughput than TCP in Wi-Fi networks, while offering competitive performance in
-                mobile networks.
-            </p>
-            <!-- <p style="margin-bottom: 1.5rem;">
-                <a href="results.html" style="color: var(--accent-color); text-decoration: none;">We uncovered</a> how QUIC is being adopted across different ISPs and geographic regions in Vietnam. Our study provides a detailed snapshot of the current landscape, highlighting the dominance of IETF QUIC (RFC 9000) and the security configurations preferred by local servers. This data is crucial for understanding the performance and security implications of the shifting internet transport layer.
-            </p>
-            <p style="margin-bottom: 1.5rem;">
-                Overall, our project aims to provide transparency and actionable insights for the research community and network operators. To ensure reproducibility and foster further research, we openly share our methodology and findings. We provide an interactive visualization tool that allows users to explore the data granularly, improving the validity of our conclusions through better accessibility and awareness.
-            </p> -->
-        </div>
-
-        <div style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 2rem;">
-            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight: normal;">About us</h3>
-            <p>
-                Feel free to contact us regarding this project and our research: <a
-                    href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn"
-                    style="color: var(--accent-color); text-decoration: none;">trung.nguyenthanh@phenikaa-uni.edu.vn</a>
-                <i>(main contact)</i>
-            </p>
-            <p>
-                The source code for this project website is available on <a
-                    href="https://github.com/quic-vn/quic-vn.github.io"
-                    style="color: var(--accent-color); text-decoration: none;">GitHub</a>. If you run into any problems
-                with the data or the website, you can create <a
-                    href="https://github.com/quic-vn/quic-vn.github.io/issues"
-                    style="color: var(--accent-color); text-decoration: none;">an issue there</a>.
-            </p>
-        </div>
-
-        <!-- <div style="margin-top: 3rem; border-top: 1px solid #5f5f5f; padding-top: 2rem;"></div> -->
-    </section>
-
-
-    <div id="footer-placeholder"></div>
-
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+            if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+        });
+    </script>
 </body>
 
 </html>

@@ -3,14 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Data ---
     const ipv4Data = {
-        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
+        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026', 'Apr 2026'],
         bar: {
             label: 'QUIC-enabled IPv4 Addresses',
-            data: [8337, 17278, 17691],
+            data: [8337, 10279, 10595, 11498],
         },
         line: {
             label: 'Percentage of Total IPv4 enabled QUIC (%)',
-            data: [0.05, 0.11, 0.11],
+            data: [0.051, 0.062, 0.064, 0.070], //total IPv4 addresses: 16,486,192 (2^24)
         },
         yAxisLabel: 'Number of Addresses',
         chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv4)',
@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // IPv6: Jan 2025 & Oct 2025 = no stats (null), Feb 2026 = 3518
     const ipv6Data = {
-        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026'],
+        labels: ['Jan 2025', 'Oct 2025', 'Feb 2026', 'Apr 2026'],
         bar: {
             label: 'QUIC-enabled IPv6 Addresses (hitlist)',
-            data: [null, null, 3518],
+            data: [null, null, 3377, 3381],
         },
         line: {
             label: 'Percentage of Total IPv6 enabled QUIC (%)',
-            data: [null, null, 0.3944], // 3518 / 891685 * 100 ≈ 0.3944%
+            data: [null, null, 0.395, 0.395], // 3377 / 856000 * 100 ≈ 0.3944%, 3381 / 856000 * 100 ≈ 0.3948%
         },
         yAxisLabel: 'Number of Addresses',
         chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv6)',
