@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
         labels: ['Jan 2025', 'Oct 2025', 'Feb 2026', 'Apr 2026'],
         bar: {
             label: 'QUIC-enabled IPv6 Addresses (hitlist)',
-            data: [null, null, 3377, 3381],
+            data: [null, null, 3377, 3488],
         },
         line: {
             label: 'Percentage of Total IPv6 enabled QUIC (%)',
-            data: [null, null, 0.395, 0.395], // 3377 / 856000 * 100 ≈ 0.3944%, 3381 / 856000 * 100 ≈ 0.3948%
+            data: [null, null, 0.395, 0.408], // 3377 / 856000 * 100 ≈ 0.3944%, 3488 / 856000 * 100 ≈ 0.4075%
         },
         yAxisLabel: 'Number of Addresses',
         chartTitle: 'Growth of QUIC Adoption in Vietnam (IPv6)',

@@ -68,11 +68,32 @@
 
         <section id="overview" class="container">
             <p class="lead">
-                <strong>QUIC</strong> <a href="#ref-1">[RFC 9000]</a> is a network transport protocol originally
-                developed by Google and standardized by the IETF in 2021. It improves performance, reduces latency, and
-                strengthens security for Internet connections. As Vietnam's digital economy continues its rapid growth
-                <a href="#ref-5">[e-Conomy SEA 2024]</a>, understanding the adoption of modern protocols like QUIC is
-                important for optimizing network infrastructure.
+                <strong>QUICMap v1</strong> is an open-source framework for reproducible
+                <strong>country-level QUIC deployment measurement</strong>. It integrates
+                IPv4 and IPv6 target construction, ZMap-based QUIC probing, DNS/SNI enrichment,
+                QScanner-based handshake validation, protocol-capability extraction, and
+                ASN/geolocation analysis.
+            </p>
+
+            <p>
+                We use QUICMap to measure QUIC deployment across ASEAN and to conduct a
+                longitudinal case study of Vietnam. The framework helps reveal how QUIC and
+                HTTP/3 visibility varies across countries, address families, autonomous systems,
+                operators, geographic regions, and measurement rounds.
+            </p>
+
+            <p>
+                QUIC, standardized in <a href="#ref-1">RFC 9000</a>, is the transport substrate
+                of HTTP/3. Since QUIC measurement is sensitive to probe design, SNI availability,
+                and stateful handshake validation, QUICMap provides a transparent and extensible
+                pipeline for regional Internet measurement.
+            </p>
+
+            <p>
+                Project repository:
+                <a href="https://github.com/quic-vn" target="_blank" rel="noopener">
+                    https://github.com/quic-vn
+                </a>.
             </p>
         </section>
 
@@ -145,76 +166,67 @@
             </div>
         </section>
 
-        <section id="project-info" class="container">
-            <p>
-                <strong>Attribution:</strong>
-                We currently use the lists provided by
-                <a href="https://vnnic.vn/sites/default/files/202508-thongkeipv4vietnam.txt">VNNIC</a>
-                (latest update: August 31, 2025) to identify Vietnamese IP addresses.
-            </p>
+<section id="project-info" class="container">
+    <p>
+        <strong>Attribution:</strong>
+        We use country-level IP allocation data from APNIC</a>
+        and regional Internet registry datasets to construct measurement targets for Vietnam and ASEAN countries.
+        For IPv6, we complement allocated prefix information with hitlist-based target selection.
+    </p>
 
-            <div class="two-column-grid">
-                <div class="info-column">
-                    <h2>Updates</h2>
-                    <ul class="info-list">
-                        <li><span class="badge">New</span> <strong>Feb 17, 2026:</strong> Completed the data update scan.</li>
-                        <li><strong>Nov 01, 2025:</strong> Completed the data update scan.</li>
-                        <li><strong>Feb 01, 2025:</strong> Completed the scanning of 16 million IPv4 addresses.</li>
-                        <li><strong>Nov 20, 2024:</strong> Integrated VNNIC IP data sources.</li>
-                    </ul>
-                </div>
+    <div class="two-column-grid">
+        <div class="info-column">
+            <h2>Updates</h2>
+            <ul class="info-list">
+                <li><span class="badge">New</span> <strong>Apr 2026:</strong> Completed the latest Vietnam QUIC measurement round.</li>
+                <li><strong>Feb 2026:</strong> Updated Vietnam IPv4 and IPv6 QUIC deployment statistics.</li>
+                <li><strong>Oct 2025:</strong> Completed a longitudinal data update scan for Vietnam.</li>
+                <li><strong>Feb 2025:</strong> Completed the first large-scale Vietnam IPv4 QUIC measurement round.</li>
+                <li><strong>Nov 2024:</strong> Integrated VNNIC IP allocation data and initial target construction modules.</li>
+            </ul>
+        </div>
 
-                <div class="info-column">
-                    <h2>Related Work & References</h2>
-                    <ul class="info-list">
-                        <li id="ref-1"><strong>QUIC Standard:</strong> We rely on
-                            <a href="https://doi.org/10.17487/RFC9000">RFC 9000</a> to verify protocol compliance and
-                            distinguish IETF QUIC from older gQUIC versions.</li>
-                        <li id="ref-7"><strong>Scanning Tool:</strong> Our methodology utilizes
-                            <a href="https://doi.org/10.5555/2534766.2534818">ZMap</a> for high-speed Internet-wide
-                            scanning to detect potential QUIC hosts.</li>
-                        <li id="ref-3"><strong>QUIC Identification:</strong> We adopt techniques from
-                            <a href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a> to identify QUIC
-                            deployments and server libraries.</li>
-                        <li id="ref-5"><strong>Economic Context:</strong> The
-                            <a href="https://economysea.withgoogle.com">e-Conomy SEA 2024 report</a> provides context
-                            on Vietnam's rapidly growing digital economy.</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="info-column">
+            <h2>Related Work & References</h2>
+            <ul class="info-list">
+                <li id="ref-1"><strong>QUIC Standard:</strong>
+                    We refer to <a href="https://doi.org/10.17487/RFC9000">RFC 9000</a>
+                    as the baseline specification for IETF QUIC.</li>
 
-            <div class="content-section">
-                <h2>About This Project</h2>
-                <p>
-                    Quick UDP Internet Connections (QUIC), an advanced IETF transport-layer protocol, offers significant
-                    advantages over traditional TCP, including reduced latency, enhanced multiplexing, built-in
-                    encryption, and optimized handshake processes. Because of these benefits, QUIC has been widely
-                    deployed by major Internet companies, and previous research has observed increasing global adoption.
-                </p>
-                <p>
-                    Motivated by this trend, we investigate QUIC deployment in Vietnam using Vietnamese IPv4 datasets.
-                    Our scanning results indicate that QUIC adoption in Vietnam remains in the early stages, with a low
-                    deployment rate of approximately 0.05% of all Vietnamese IPv4 addresses. We also analyze active
-                    migration support, TLS encryption preferences, geographic deployment patterns, and performance
-                    differences between QUIC and TCP across Wi-Fi and mobile networks.
-                </p>
-            </div>
+                <li id="ref-2"><strong>HTTP/3 over QUIC:</strong>
+                    We use ALPN negotiation results, especially <code>h3</code>, to identify HTTP/3-capable QUIC services.</li>
 
-            <div class="content-section">
-                <h2>About Us</h2>
-                <p>
-                    For questions about this project and our research, contact
-                    <a href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn">trung.nguyenthanh@phenikaa-uni.edu.vn</a>
-                    <i>(main contact)</i>.
-                </p>
-                <p>
-                    The source code for this project website is available on
-                    <a href="https://github.com/quic-vn/quic-vn.github.io">GitHub</a>. If you run into any problems
-                    with the data or the website, please create
-                    <a href="https://github.com/quic-vn/quic-vn.github.io/issues">an issue</a>.
-                </p>
-            </div>
-        </section>
+                <li id="ref-3"><strong>Scanning Tool:</strong>
+                    Our measurement pipeline uses
+                    <a href="https://doi.org/10.5555/2534766.2534818">ZMap</a>
+                    for high-speed stateless QUIC probing over UDP/443.</li>
+
+                <li id="ref-4"><strong>Stateful Validation:</strong>
+                    We use QScanner-style stateful QUIC handshakes to validate responsive targets and extract protocol capabilities.</li>
+
+                <li id="ref-5"><strong>QUIC Measurement:</strong>
+                    We build on prior QUIC deployment studies, including
+                    <a href="https://doi.org/10.1007/978-3-031-56252-5_13">QUIC Hunter</a>,
+                    which highlights the importance of probe design, SNI, and implementation diversity in QUIC measurement.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>About Us</h2>
+        <p>
+            For questions about QUICMap, measurement data, or related research, please contact
+            <a href="mailto:trung.nguyenthanh@phenikaa-uni.edu.vn">trung.nguyenthanh@phenikaa-uni.edu.vn</a>
+            <i>(main contact)</i>.
+        </p>
+        <p>
+            The source code and project website are available at
+            <a href="https://github.com/quic-vn">https://github.com/quic-vn</a>.
+            If you find issues with the data, scripts, or website, please create
+            <a href="https://github.com/quic-vn/quic-vn.github.io/issues">an issue</a>.
+        </p>
+    </div>
+</section>
     </main>
 
     <div id="footer-placeholder">
