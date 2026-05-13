@@ -68,32 +68,10 @@
 
         <section id="overview" class="container">
             <p class="lead">
-                <strong>QUICMap v1</strong> is an open-source framework for reproducible
-                <strong>country-level QUIC deployment measurement</strong>. It integrates
-                IPv4 and IPv6 target construction, ZMap-based QUIC probing, DNS/SNI enrichment,
-                QScanner-based handshake validation, protocol-capability extraction, and
-                ASN/geolocation analysis.
-            </p>
-
-            <p>
-                We use QUICMap to measure QUIC deployment across ASEAN and to conduct a
-                longitudinal case study of Vietnam. The framework helps reveal how QUIC and
-                HTTP/3 visibility varies across countries, address families, autonomous systems,
-                operators, geographic regions, and measurement rounds.
-            </p>
-
-            <p>
-                QUIC, standardized in <a href="#ref-1">RFC 9000</a>, is the transport substrate
+                QUIC, standardized in <a href="https://datatracker.ietf.org/doc/html/rfc9000">RFC 9000</a>, is the transport substrate
                 of HTTP/3. Since QUIC measurement is sensitive to probe design, SNI availability,
-                and stateful handshake validation, QUICMap provides a transparent and extensible
+                and stateful handshake validation, our research provides a transparent and extensible
                 pipeline for regional Internet measurement.
-            </p>
-
-            <p>
-                Project repository:
-                <a href="https://github.com/quic-vn" target="_blank" rel="noopener">
-                    https://github.com/quic-vn
-                </a>.
             </p>
         </section>
 
@@ -166,13 +144,28 @@
             </div>
         </section>
 
-<section id="project-info" class="container">
-    <p>
-        <strong>Attribution:</strong>
-        We use country-level IP allocation data from APNIC</a>
-        and regional Internet registry datasets to construct measurement targets for Vietnam and ASEAN countries.
-        For IPv6, we complement allocated prefix information with hitlist-based target selection.
-    </p>
+    <section id="project-info" class="container">
+            <p>
+                    <strong>QUICMap v1</strong> is an open-source framework for reproducible
+                    <strong>country-level QUIC deployment measurement</strong>. It integrates
+                    IPv4 and IPv6 target construction, ZMap-based QUIC probing, DNS/SNI enrichment,
+                    QScanner-based handshake validation, protocol-capability extraction, and
+                    ASN/geolocation analysis.
+            </p>
+
+            <p>
+                    We use QUICMap to measure QUIC deployment across ASEAN and to conduct a
+                    longitudinal case study of Vietnam. The framework helps reveal how QUIC and
+                    HTTP/3 visibility varies across countries, address families, autonomous systems,
+                    operators, geographic regions, and measurement rounds.
+            </p>
+
+            <p>
+                Project repository:
+                <a href="https://github.com/quic-vn/QUICMap" target="_blank" rel="noopener">
+                    https://github.com/quic-vn/QUICMap
+                </a>.
+            </p>
 
     <div class="two-column-grid">
         <div class="info-column">
