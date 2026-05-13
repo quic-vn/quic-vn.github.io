@@ -68,10 +68,11 @@
 
         <section id="overview" class="container">
             <p class="lead">
-                QUIC, standardized in <a href="https://datatracker.ietf.org/doc/html/rfc9000">RFC 9000</a>, is the transport substrate
-                of HTTP/3. Since QUIC measurement is sensitive to probe design, SNI availability,
-                and stateful handshake validation, our research provides a transparent and extensible
-                pipeline for regional Internet measurement.
+                <strong>QUIC</strong>, standardized in
+                <a href="https://datatracker.ietf.org/doc/html/rfc9000">RFC 9000</a>,
+                is the transport substrate of HTTP/3. Since QUIC measurement is sensitive to
+                probe design, SNI availability, and stateful handshake validation, our research
+                provides a transparent and extensible pipeline for regional Internet measurement.
             </p>
         </section>
 
@@ -117,12 +118,32 @@
         <section id="export-data" class="container">
             <div class="export-section">
                 <div class="section-heading compact">
-                    <span class="section-label">Dataset</span>
-                    <h2 class="section-title">Export Data</h2>
-                    <p>Download the currently selected Vietnam IPv4 or IPv6 deployment timeline as CSV.</p>
+                    <span class="section-label">Project</span>
+                    <h2 class="section-title">QUICMap</h2>
+                    <p>QUICMap provides measurement data, visualizations, and reproducible scripts for regional QUIC deployment analysis.</p>
                 </div>
+                <p>
+                    <strong>QUICMap v1</strong> is an open-source framework for reproducible
+                    <strong>country-level QUIC deployment measurement</strong>. It integrates
+                    IPv4 and IPv6 target construction, ZMap-based QUIC probing, DNS/SNI enrichment,
+                    QScanner-based handshake validation, protocol-capability extraction, and
+                    ASN/geolocation analysis.
+                </p>
 
-                <div class="export-grid">
+                <p>
+                    We use QUICMap to measure QUIC deployment across ASEAN and to conduct a
+                    longitudinal case study of Vietnam. The framework helps reveal how QUIC and
+                    HTTP/3 visibility varies across countries, address families, autonomous systems,
+                    operators, geographic regions, and measurement rounds.
+                </p>
+
+                <p>
+                    Project repository:
+                    <a href="https://github.com/quic-vn/QUICMap" target="_blank" rel="noopener">
+                        https://github.com/quic-vn/QUICMap
+                    </a>.
+                </p>
+                <!-- <div class="export-grid">
                     <div class="export-option">
                         <h3>Specific Date</h3>
                         <div class="export-controls">
@@ -140,33 +161,12 @@
                             <button id="exportRangeBtn" class="btn" type="button">Download</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
     <section id="project-info" class="container">
-            <p>
-                    <strong>QUICMap v1</strong> is an open-source framework for reproducible
-                    <strong>country-level QUIC deployment measurement</strong>. It integrates
-                    IPv4 and IPv6 target construction, ZMap-based QUIC probing, DNS/SNI enrichment,
-                    QScanner-based handshake validation, protocol-capability extraction, and
-                    ASN/geolocation analysis.
-            </p>
-
-            <p>
-                    We use QUICMap to measure QUIC deployment across ASEAN and to conduct a
-                    longitudinal case study of Vietnam. The framework helps reveal how QUIC and
-                    HTTP/3 visibility varies across countries, address families, autonomous systems,
-                    operators, geographic regions, and measurement rounds.
-            </p>
-
-            <p>
-                Project repository:
-                <a href="https://github.com/quic-vn/QUICMap" target="_blank" rel="noopener">
-                    https://github.com/quic-vn/QUICMap
-                </a>.
-            </p>
-
+            
     <div class="two-column-grid">
         <div class="info-column">
             <h2>Updates</h2>
