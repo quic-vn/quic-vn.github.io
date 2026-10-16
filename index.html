@@ -78,6 +78,7 @@
 
         <section id="news" class="container">
             <div class="section-heading"><span class="section-label">Updates</span><h2 class="section-title">Latest News</h2></div>
+            <article class="detail-item"><p><time datetime="2026-10-16">October 16, 2026</time></p><h3>Separate ASEAN IPv4 and IPv6 maps</h3><p>The regional visualization now presents IPv4 and IPv6 confirmed handshake counts in separate maps, with family-specific legends. Brunei's empty IPv6 target frame is marked N/A.</p><p><a href="#asean-map">Explore the updated ASEAN maps</a></p></article>
             <article class="detail-item">
                 <p><time datetime="2026-10-16">October 16, 2026</time></p>
                 <h3>Metadata mappings and provenance supplement</h3>
@@ -90,9 +91,14 @@
             <div class="section-heading">
                 <span class="section-label">ASEAN</span>
                 <h2 class="section-title">Regional QUIC Deployment Map</h2>
-                <p>The map visualizes the geographic distribution of QUIC-enabled servers across ASEAN.</p>
+                <p>Separate IPv4 and IPv6 maps show confirmed QUIC handshake counts in the April 2026 measurements. Country associations describe the measured sample, not independently verified server locations or national adoption.</p>
             </div>
-            <iframe src="asean_quic_enabled_heatmap.html" title="ASEAN QUIC deployment heatmap"></iframe>
+            <h3>IPv4 — 58,318 confirmed addresses</h3>
+            <p><a href="asean_quic_ipv4_heatmap.html" target="_blank" rel="noopener">Open IPv4 map full screen</a></p>
+            <iframe src="asean_quic_ipv4_heatmap.html" title="ASEAN IPv4 confirmed QUIC handshake map" loading="lazy" style="height:850px"></iframe>
+            <h3>IPv6 — 10,845 confirmed addresses</h3>
+            <p><a href="asean_quic_ipv6_heatmap.html" target="_blank" rel="noopener">Open IPv6 map full screen</a></p>
+            <iframe src="asean_quic_ipv6_heatmap.html" title="ASEAN IPv6 confirmed QUIC handshake map" loading="lazy" style="height:850px"></iframe>
         </section>
 
         <section id="deployment-chart" class="container">
