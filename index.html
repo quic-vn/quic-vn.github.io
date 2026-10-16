@@ -76,6 +76,16 @@
             </p>
         </section>
 
+        <section id="news" class="container">
+            <div class="section-heading"><span class="section-label">Updates</span><h2 class="section-title">Latest News</h2></div>
+            <article class="detail-item">
+                <p><time datetime="2026-10-16">October 16, 2026</time></p>
+                <h3>Metadata mappings and provenance supplement</h3>
+                <p>The April-labelled Vietnam analysis now includes downloadable ASN-to-operator dictionaries, organization aliases, province and city mappings, and normalization rules. The provenance manifest distinguishes recorded scanner timestamps from workflow-derived query-date estimates.</p>
+                <p><a href="#metadata-2026">Explore the metadata supplement</a></p>
+            </article>
+        </section>
+
         <section id="asean-map" class="container map-block">
             <div class="section-heading">
                 <span class="section-label">ASEAN</span>
@@ -113,6 +123,19 @@
                 </p>
             </div>
             <iframe src="visualization_34provinces.html" title="Vietnam QUIC deployment map"></iframe>
+        </section>
+
+        <section id="metadata-2026" class="container">
+            <div class="section-heading"><span class="section-label">Reproducibility</span><h2 class="section-title">Metadata and Mapping Files</h2>
+                <p>Mapping dictionaries and provenance for the April-labelled Vietnam analysis.</p></div>
+            <ul>
+                <li><a href="data/metadata-2026/asn_to_operator.csv">ASN-to-operator dictionary (CSV)</a> and <a href="data/metadata-2026/operator_name_aliases.csv">organization-name aliases (CSV)</a></li>
+                <li><a href="data/metadata-2026/province_mapping.csv">Province mapping (CSV)</a> and <a href="data/metadata-2026/city_mapping.csv">city fallback mapping (CSV)</a></li>
+                <li><a href="data/metadata-2026/metadata_provenance.json">Metadata provenance and timing (JSON)</a></li>
+                <li><a href="data/metadata-2026/mapping_rules.py">Normalization and lookup rules (Python)</a></li>
+            </ul>
+            <p>Exact API query timestamps and database editions are not recorded. Query-date estimates are labelled separately from scanner completion timestamps. The mappings describe metadata associations rather than independently verified ownership or physical location.</p>
+            <p><a class="btn" href="data/metadata-2026/metadata-supplement.zip" download>Download all metadata files</a> <a href="data/metadata-2026/">Read documentation</a></p>
         </section>
 
         <section id="export-data" class="container">
