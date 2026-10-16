@@ -1,0 +1,70 @@
+{
+  "release_date": "2026-10-16",
+  "scope": "April-labelled Vietnam IPv4 and IPv6 metadata associations",
+  "provider": "IP2Location.io",
+  "access_tier": "paid subscription (author confirmed)",
+  "query_start_utc": null,
+  "query_end_utc": null,
+  "query_date_status": "not recorded in retained CSV; no dedicated query timestamp log identified",
+  "database_edition": null,
+  "database_edition_status": "not recorded",
+  "mapping_source": "analyze_vietnam_geo.py",
+  "mapping_source_sha256": "45086aaace5a84eda3560de417e398b90928b86237d8c3190e50bf79323077d7",
+  "datasets": [
+    {
+      "family": "ipv4",
+      "source_path": "ipv4/output/vietnam-2026-04-28/statistics_qscanner_geo.csv",
+      "round_label": "vietnam-2026-04-28",
+      "rows": 11498,
+      "columns": [
+        "ip",
+        "country_code",
+        "country_name",
+        "region_name",
+        "city_name",
+        "latitude",
+        "longitude",
+        "zip_code",
+        "time_zone",
+        "asn",
+        "as",
+        "is_proxy"
+      ],
+      "sha256": "30a44f446cfebc9f06854cd0da1aa0fd2f39c1059567942aebc93e3bad2918f9",
+      "latest_recorded_connection_close_utc": "2026-04-28T14:07:06+00:00",
+      "connection_timestamp_unit": "seconds",
+      "query_timing_basis": "Author states enrichment follows scanning; latest connection close is a preceding reference, not a directly recorded API query time.",
+      "query_date_estimate_utc": "2026-04-28",
+      "query_date_estimate_status": "workflow-derived estimate; assumes enrichment starts on same UTC date, not independently verified",
+      "connection_source": "ipv4/output/vietnam-2026-04-28/qscanner/output/quic_connection_info.csv"
+    },
+    {
+      "family": "ipv6",
+      "source_path": "ipv6/output/vietnam-2026-04-25/statistics_qscanner_geo.csv",
+      "round_label": "vietnam-2026-04-25",
+      "rows": 3488,
+      "columns": [
+        "ip",
+        "country_code",
+        "country_name",
+        "region_name",
+        "city_name",
+        "latitude",
+        "longitude",
+        "zip_code",
+        "time_zone",
+        "asn",
+        "as",
+        "is_proxy"
+      ],
+      "sha256": "a70b3de9702856b9c7ed46dbd197a89b4508797656f3695b5b1c8e324e8137cf",
+      "latest_recorded_connection_close_utc": "2026-04-25T18:48:18+00:00",
+      "connection_timestamp_unit": "seconds",
+      "query_timing_basis": "Author states enrichment follows scanning; latest connection close is a preceding reference, not a directly recorded API query time.",
+      "query_date_estimate_utc": "2026-04-25",
+      "query_date_estimate_status": "workflow-derived estimate; assumes enrichment starts on same UTC date, not independently verified",
+      "connection_source": "ipv6/output/vietnam-2026-04-25/qscanner/output/quic_connection_info.csv"
+    }
+  ],
+  "author_workflow_statement": "IP2Location queries follow completion of scanner results."
+}
